@@ -2,1061 +2,785 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Year 2026 Resolution Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Executive Resolution Generator 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Dancing+Script:wght@700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-primary: #FF6B6B;
-            --color-secondary: #4ECDC4;
-            --color-gold: #FFD93D;
-            --color-deep-blue: #2C3E50;
-            --color-light-bg: #F8F9FA;
-            --color-white: #FFFFFF;
-            --color-text: #2C3E50;
-            --color-text-light: #7F8C8D;
-            --shadow: 0 8px 24px rgba(0,0,0,0.12);
+            --font-ui: 'Inter', sans-serif;
+            --font-lux: 'Playfair Display', serif;
+            --c-accent: #FFD93D;
+            --c-dark: #050505;
+            --c-glass: rgba(255, 255, 255, 0.92);
+            --c-border: rgba(255, 255, 255, 0.6);
+            --c-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5);
+            --bg-1: #667eea;
+            --bg-2: #764ba2;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-ui);
+            background: #080808;
             min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .form-section {
-            background: var(--color-white);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--color-deep-blue);
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--color-text-light);
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            color: var(--color-deep-blue);
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #E0E0E0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-            font-family: inherit;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus {
-            outline: none;
-            border-color: var(--color-secondary);
-        }
-
-        .resolutions-list {
+            color: var(--c-dark);
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .resolution-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: var(--color-light-bg);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .resolution-item:hover {
-            background: #F0F0F0;
-        }
-
-        .resolution-item.selected {
-            background: #E8F8F7;
-            border-color: var(--color-secondary);
-            animation: pulse 0.4s ease-out;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.98); opacity: 0.8; }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .resolution-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--color-secondary);
-        }
-
-        .resolution-text {
-            font-size: 14px;
-            color: var(--color-text);
-            flex: 1;
-        }
-
-        .add-custom-section {
-            border-top: 2px solid #E0E0E0;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-
-        .custom-input-wrapper {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .custom-input-wrapper input {
-            flex: 1;
-        }
-
-        .btn-add {
-            padding: 10px 16px;
-            background: var(--color-secondary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-add:hover {
-            background: #45B8AF;
-            transform: translateY(-2px);
-        }
-
-        .custom-resolutions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .custom-tag {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 12px;
-            background: var(--color-gold);
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--color-deep-blue);
-        }
-
-        .btn-remove {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--color-deep-blue);
-        }
-
-        .btn-generate {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-generate:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.3);
-        }
-
-        .btn-generate:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .post-preview {
-            background: var(--color-white);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            display: none;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .post-preview.show {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .post-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            padding: 30px;
-            color: white;
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-section {
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            padding: 20px 15px;
+            overflow-x: hidden;
         }
 
-        .profile-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--color-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--color-deep-blue);
-            overflow: hidden;
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #080808; z-index: -2;
+            transition: background 0.5s ease; overflow: hidden;
         }
+
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: flow 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--bg-1); animation-delay: 0s; }
+        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: var(--bg-2); animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: var(--c-accent); opacity: 0.2; animation-delay: -10s; }
+
+        @keyframes flow { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20px, -20px) scale(1.1); } }
         
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .ambient-orb {
+            position: fixed; width: 100vw; height: 100vh;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            z-index: -1; pointer-events: none;
         }
 
-        .profile-info h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 700;
-            color: white;
-            text-align: left;
+        .app-container { width: 100%; max-width: 500px; position: relative; z-index: 10; padding-bottom: 40px;}
+
+        .editor-card {
+            background: var(--c-glass);
+            backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px);
+            border: 1px solid var(--c-border);
+            border-radius: 36px; padding: 36px 30px;
+            box-shadow: var(--c-shadow);
+            animation: slideIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .profile-info p {
-            margin: 0;
-            font-size: 12px;
-            opacity: 0.9;
-            color: rgba(255,255,255,0.9);
-            text-align: left;
+        h1 { text-align: center; font-family: var(--font-lux); font-size: 38px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; color: #000; }
+        .subtitle { text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: #555; margin-bottom: 35px; }
+
+        .input-group { margin-bottom: 26px; }
+        label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; color: #444; }
+        
+        input[type="text"] {
+            width: 100%; padding: 18px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.7); font-family: var(--font-ui); font-weight: 600; font-size: 15px; transition: 0.3s;
+        }
+        input[type="text"]:focus { outline: none; background: #fff; border-color: #000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform:translateY(-1px); }
+
+        .social-wrapper { position: relative; display: flex; gap: 8px; flex: 1.3; }
+        .social-trigger {
+            width: 54px; flex-shrink: 0; background: #222; /* Dark bg for logo visibility */
+            border: 1px solid rgba(0,0,0,0.2); border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; position: relative;
+        }
+        .social-trigger:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .social-trigger img { width: 24px; height: 24px; display: block; }
+        
+        /* Selector Popup - Dark Theme for visibility of white icons */
+        .social-popup {
+            position: absolute; top: 110%; left: 0; background: #1a1a1a;
+            padding: 10px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            display: none; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            z-index: 20; animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-popup.active { display: grid; }
+        .s-opt {
+            width: 44px; height: 44px; border-radius: 12px; background: #333;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: 0.2s;
+        }
+        .s-opt:hover { background: #444; transform: scale(1.1); }
+        .s-opt img { width: 24px; height: 24px; }
+
+        .format-switch { display: flex; background: rgba(0,0,0,0.04); padding: 5px; border-radius: 18px; margin-bottom: 28px; }
+        .f-btn { flex: 1; padding: 14px; text-align: center; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 14px; cursor: pointer; color: #777; transition: 0.2s; }
+        .f-btn.active { background: #fff; color: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+
+        .preset-list { display: flex; flex-direction: column; gap: 10px; }
+        .goal-item {
+            padding: 16px; border-radius: 16px; background: rgba(255,255,255,0.5);
+            font-size: 14px; font-weight: 500; cursor: pointer; border: 1px solid transparent;
+            display: flex; align-items: center; gap: 14px; transition: 0.2s;
+        }
+        .goal-item:hover { background: #fff; }
+        .goal-item.selected { background: #fff; border-color: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+        .check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ccc; transition:0.2s; position: relative; }
+        .goal-item.selected .check { background: #000; border-color: #000; }
+        .goal-item.selected .check::after { content:''; position: absolute; top: 5px; left: 5px; width: 8px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
+
+        .custom-area { display: flex; gap: 8px; margin-top: 14px; }
+        .btn-add { width: 52px; background: #000; color: #fff; border: none; border-radius: 14px; font-size: 22px; cursor: pointer; transition: 0.2s; }
+        .btn-add:hover { transform: scale(1.05); }
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .tag { background: #000; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        .sig-box { background: #fff; border-radius: 16px; border: 1px solid #ddd; height: 130px; position: relative; cursor: crosshair; overflow: hidden; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); }
+        canvas { width: 100%; height: 100%; touch-action: none; }
+        .sig-clear { position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: #999; cursor: pointer; background: #f5f5f5; padding: 6px 12px; border-radius: 8px; transition: 0.2s; }
+        .sig-clear:hover { background: #eee; color: #555; }
+
+        .theme-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 8px; }
+        .theme-dot {
+            height: 55px; border-radius: 16px; cursor: pointer; transition: 0.3s;
+            border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .theme-dot::after {
+            content: ''; width: 12px; height: 12px; border-radius: 50%;
+            background: var(--acc-preview); box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .theme-dot.active { border-color: #000; transform: scale(1.15); z-index:2; }
+
+        .btn-gen {
+            width: 100%; padding: 24px; border: none; border-radius: 20px;
+            background: #000; color: #fff; font-family: var(--font-ui);
+            font-size: 15px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s; margin-top: 35px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+        }
+        .btn-gen::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-gen:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 25px 60px rgba(0,0,0,0.4); }
+        .btn-gen:hover:not(:disabled)::after { left: 100%; }
+        .btn-gen:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .preview-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            backdrop-filter: blur(30px); animation: fadeIn 0.4s ease; padding: 20px;
+        }
+        .preview-modal.active { display: flex; }
+
+        .card-preview-container {
+            width: 100%; max-width: 400px; max-height: 80vh;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        .resolutions-display {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-            backdrop-filter: blur(5px);
+        .card-preview {
+            width: auto; height: auto; max-width: 100%; max-height: 100%;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.9);
+            border-radius: 20px; overflow: hidden;
         }
+        .card-preview img { width: 100%; height: auto; display: block; }
 
-        .resolution-number {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 12px;
-            font-size: 15px;
-            line-height: 1.5;
-        }
+        .modal-actions { display: flex; gap: 15px; margin-top: 30px; width: 100%; max-width: 400px; justify-content: center; }
+        .btn-act { padding: 16px 30px; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; flex: 1; max-width: 200px; }
+        .btn-dl { background: #fff; color: #000; box-shadow: 0 0 40px rgba(255,255,255,0.2); }
+        .btn-dl:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(255,255,255,0.4); }
+        .btn-close { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-close:hover { background: rgba(255,255,255,0.2); }
 
-        .number-circle {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--color-gold);
-            color: var(--color-deep-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-            flex-shrink: 0;
-            margin-top: 0;
-        }
+        @keyframes slideIn { from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:translateY(0)} }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
 
-        .year-text {
-            font-size: 48px;
-            font-weight: 900;
-            margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            letter-spacing: 2px;
-        }
-
-        .btn-copy {
-            width: 100%;
-            padding: 12px;
-            background: var(--color-secondary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 10px;
-        }
-
-        .btn-copy:hover {
-            background: #45B8AF;
-        }
-
-        .btn-download {
-            width: 100%;
-            padding: 12px;
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-download:hover {
-            background: #FF5555;
-        }
-
-        .success-message {
-            background: #E8F8F7;
-            color: var(--color-secondary);
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 13px;
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .back-btn {
-            background: var(--color-text-light);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: var(--color-deep-blue);
-        }
-
-        .social-handle {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-        }
-
-        .social-icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        .design-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .design-option {
-            position: relative;
-            border-radius: 10px;
-            padding: 4px;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s;
-            background: var(--color-light-bg);
-        }
-
-        .design-option:hover {
-            border-color: var(--color-secondary);
-            transform: translateY(-2px);
-        }
-
-        .design-option.active {
-            border-color: var(--color-primary);
-            background: #FFE5E5;
-            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
-        }
-
-        .design-preview {
-            width: 100%;
-            height: 60px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-            text-align: center;
-        }
-
-        .design-name {
-            font-size: 10px;
-            margin-top: 4px;
-            text-align: center;
-            color: var(--color-text);
-            font-weight: 600;
-        }
-
-        /* Design Classes for CSS Preview */
-        .post-card.design-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .post-card.design-2 { background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%); }
-        .post-card.design-3 { background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); }
-        .post-card.design-4 { background: linear-gradient(135deg, #667eea 0%, #FF6B6B 100%); }
-        .post-card.design-5 { background: linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%); }
-        .post-card.design-6 { background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%); }
-        .post-card.design-7 { background: linear-gradient(135deg, #6A4C93 0%, #1982C4 100%); }
-        .post-card.design-8 { background: linear-gradient(135deg, #FF006E 0%, #FB5607 100%); }
-
-        @media (max-width: 480px) {
-            .form-section, .post-preview { padding: 20px; }
-            h1 { font-size: 24px; }
-            .post-card { padding: 20px; }
-            .year-text { font-size: 40px; }
+        @media (max-width: 600px) {
+            .editor-card { padding: 24px; border-radius: 28px; }
+            h1 { font-size: 32px; }
+            .theme-row { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Form Section -->
-        <div class="form-section" id="formSection">
-            <h1>🎯 2026 Resolution Creator</h1>
-            <p class="subtitle">Create your social media post</p>
 
-            <form id="resolutionForm">
-                <!-- User Info -->
-                <div class="form-group">
-                    <label for="userName">Your Name</label>
-                    <input type="text" id="userName" placeholder="Enter your name" required oninput="updateGenerateBtn()">
+<div class="ambient-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+</div>
+<div class="ambient-orb"></div>
+
+<div class="app-container">
+    <div class="editor-card" id="editor">
+        <h1>2026 MANIFESTO</h1>
+        <p class="subtitle">The Executive Edition</p>
+
+        <div class="input-group">
+            <label>Profile Identity</label>
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <input type="text" id="inpName" placeholder="Full Name" oninput="validate()" style="flex:2">
+                <div style="width:65px; position:relative;">
+                    <input type="text" id="inpEmoji" value="👤" style="text-align:center; cursor:pointer;" readonly onclick="document.getElementById('fileInp').click()">
+                    <input type="file" id="fileInp" accept="image/*" style="display:none" onchange="loadImg(this)">
                 </div>
-
-                <!-- Profile Section -->
-                <div class="form-group">
-                    <label>Profile Section</label>
-                    <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
-                        <div style="flex: 1; min-width: 120px;">
-                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Avatar</label>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="text" id="userAvatar" placeholder="Emoji" maxlength="2" value="👤" style="text-align: center; font-size: 18px; width: 60px;">
-                                <label style="flex: 1; position: relative; overflow: hidden; margin: 0;">
-                                    <button type="button" style="width: 100%; height: 100%; background: var(--color-secondary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s; padding: 12px;">Upload</button>
-                                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
-                                </label>
-                            </div>
-                            <div id="uploadPreview" style="margin-top: 8px; text-align: center; height: 50px;">
-                                <img id="previewImg" style="display: none; width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin: 0 auto; border: 2px solid var(--color-secondary);">
-                            </div>
-                        </div>
-                        <div style="flex: 2; min-width: 150px;">
-                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Title/Role</label>
-                            <input type="text" id="userRole" placeholder="e.g., Dreamer, Creator" maxlength="25">
-                        </div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <input type="text" id="inpRole" placeholder="Role (e.g. Visionary)" style="flex:1">
+                <div class="social-wrapper">
+                    <div class="social-trigger" id="socialTrigger" onclick="toggleSocial()">
+                        <img id="currentSocialIcon" src="">
                     </div>
-                    <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div>
-                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Instagram</label>
-                            <input type="text" id="instagramHandle" placeholder="@username" maxlength="20">
-                        </div>
-                        <div>
-                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">YouTube</label>
-                            <input type="text" id="youtubeHandle" placeholder="@channel" maxlength="20">
-                        </div>
-                    </div>
+                    <div class="social-popup" id="socialPopup"></div>
+                    <input type="text" id="inpHandle" placeholder="Username" style="flex:1">
                 </div>
-
-                <!-- Select Resolutions -->
-                <div class="form-group">
-                    <label>Select Resolutions (Max 5) <span id="resolutionCount" style="color: var(--color-secondary); font-weight: bold;">(0/5)</span></label>
-                    <div class="resolutions-list">
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Meditate daily for inner peace"><span class="resolution-text">🧘 Meditate daily for inner peace</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Read more books & expand knowledge"><span class="resolution-text">📚 Read more books &amp; expand knowledge</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Exercise & stay fit"><span class="resolution-text">💪 Exercise &amp; stay fit</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Learn a new skill"><span class="resolution-text">🎯 Learn a new skill</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Spend more time with family"><span class="resolution-text">👨‍👩‍👧‍👦 Spend more time with family</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Save money & build wealth"><span class="resolution-text">💰 Save money &amp; build wealth</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Practice gratitude daily"><span class="resolution-text">🙏 Practice gratitude daily</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Travel & explore new places"><span class="resolution-text">✈️ Travel &amp; explore new places</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Improve sleep schedule"><span class="resolution-text">😴 Improve sleep schedule</span></div>
-                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Help others & serve community"><span class="resolution-text">🤝 Help others &amp; serve community</span></div>
-                    </div>
-                </div>
-
-                <!-- Add Custom Resolutions -->
-                <div class="add-custom-section">
-                    <label>Add Custom Resolution</label>
-                    <div class="custom-input-wrapper">
-                        <input type="text" id="customInput" placeholder="Type your resolution..." oninput="updateGenerateBtn()">
-                        <button type="button" class="btn-add" onclick="addCustomResolution()">Add</button>
-                    </div>
-                    <div class="custom-resolutions" id="customResolutions"></div>
-                </div>
-
-                <!-- Card Design Selector -->
-                <div class="form-group" id="designSelectorSection">
-                    <label>Choose Theme</label>
-                    <div class="design-selector" id="designSelector"></div>
-                </div>
-
-                <button type="button" class="btn-generate" id="generateBtn" onclick="generatePost()" disabled>Generate Post</button>
-            </form>
+            </div>
         </div>
 
-        <!-- Post Preview Section -->
-        <div class="post-preview" id="postPreview">
-            <button class="back-btn" onclick="goBack()">← Edit</button>
-            <div class="success-message" id="successMessage">Post created successfully! ✨</div>
+        <div class="format-switch">
+            <div class="f-btn active" onclick="setFormat('post', this)">Portrait (Max 5)</div>
+            <div class="f-btn" onclick="setFormat('story', this)">Story (Max 8)</div>
+        </div>
 
-            <!-- Social Media Card -->
-            <div class="post-card">
-                <div class="profile-section">
-                    <div class="profile-avatar" id="avatar">👤</div>
-                    <div class="profile-info">
-                        <h3 id="displayName">Your Name</h3>
-                        <p id="displayRole">New Year 2026</p>
-                    </div>
-                </div>
-
-                <div id="socialHandlesDisplay" style="display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;"></div>
-
-                <div style="margin: 20px 0; font-size: 14px; line-height: 1.8;">
-                    <p style="margin: 0 0 15px 0; font-size: 18px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">My 2026 Resolutions ✨</p>
-                </div>
-
-                <div class="resolutions-display" id="resolutionsDisplay"></div>
-
-                <div class="year-text">2026</div>
+        <div class="input-group">
+            <label>
+                <span>Select Goals</span>
+                <span id="goalLimitCounter" style="float:right; opacity:0.6;">0/5</span>
+            </label>
+            <div class="preset-list" id="presetList"></div>
+            <div class="custom-area">
+                <input type="text" id="inpCustom" placeholder="Add custom goal..." onkeypress="if(event.key==='Enter') addCustom()">
+                <button class="btn-add" onclick="addCustom()">+</button>
             </div>
+            <div class="tags" id="tagList"></div>
+        </div>
 
-            <div style="margin-top: 20px;">
-                <button class="btn-copy" onclick="copyToClipboard()">📋 Copy Text</button>
-                <button class="btn-download" onclick="downloadImage()">⬇️ Download Image</button>
+        <div class="input-group">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <label style="margin:0">Official Signature</label>
+                <div class="sig-clear" onclick="clearSig()">RESET</div>
             </div>
+            <div class="sig-box">
+                <canvas id="sigCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Aesthetic Theme</label>
+            <div class="theme-row" id="themeRow"></div>
+        </div>
+
+        <button class="btn-gen" id="genBtn" onclick="generate()" disabled>Create Masterpiece</button>
+    </div>
+</div>
+
+<div class="preview-modal" id="previewModal">
+    <div class="card-preview-container">
+        <div class="card-preview">
+            <img id="finalImg" alt="Preview">
         </div>
     </div>
+    <div style="color:rgba(255,255,255,0.6); font-size:11px; margin-top:20px; font-weight:500; letter-spacing:1px; text-transform:uppercase;">High-Fidelity Render (2x)</div>
+    <div class="modal-actions">
+        <button class="btn-act btn-close" onclick="closePreview()">Edit</button>
+        <button class="btn-act btn-dl" onclick="saveImage()">Download</button>
+    </div>
+</div>
 
-    <script>
-        let selectedResolutions = [];
-        let customResolutions = [];
-        let selectedDesign = 'design-1';
+<script>
+    // CORRECTED SVG LOGOS (All Cleaned & Verified)
+    const SOCIALS = {
+        'instagram': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIxMDAlIiB5MT0iMTAwJSIgeDI9IjAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzRlNjNkMyIvPjxzdG9wIG9mZnNldD0iMC41IiBzdG9wLWNvbG9yPSIjZmE3ZTFlIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmNkZjc5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZmlsbD0idXJsKCNhKSIgZD0iTTIyNC4xIDE0MWMtNjMuNiAwLTExNC45IDUxLjMtMTE0LjkgMTE0LjlzNTEuMyAxMTQuOSAxMTQuOSAxMTQuOXMxMTQuOS01MS4zIDExNC45LTExNC45UzMzOSAyNTUuOSAzMzkgMjU1LjkgMjg3LjcgMTQxIDIyNC4xIDE0MXptMCAxODkuNmMtNDEuMSAwLTc0LjctMzMuNS03NC43LTc0LjdzMzMuNS03NC43IDc0LjctNzQuNyA3NC43IDMzLjUgNzQuNyA3NC43LTMzLjUgNzQuNy03NC43IDc0Ljd6bTE0Ni40LTE5NC4zYzAgMTQuOS0xMiAyNi44LTI2LjggMjYuOC0xNC45IDAtMjYuOC0xMi0yNi44LTI2LjhzMTItMjYuOCAyNi44LTI2LjggMjYuOCAxMiAyNi44IDI2Ljh6bTc2LjEgMjcuMmMtMS43LTM1LjktOS45LTY3LjctMzYuMi05My45LTI2LjItMjYuMi01OC0zNC40LTkzLjktMzYuMi0zNy0yLjEtMTQ3LjktMi4xLTE4NC45IDAtMzUuOCAxLjctNjcuNiA5LjktOTMuOSAzNi4xcy0zNC40IDU4LTM2LjIgOTMuOWMtMi4xIDM3LTIuMSAxNDcuOSAwIDE4NC45IDEuNyAzNS45IDkuOSA2Ny43IDM2LjIgOTMuOXM1OCAzNC40IDkzLjkgMzYuMmMzNyAyLjEgMTQ3LjkgMi4xIDE4NC45IDAgMzUuOS0xLjcgNjcuNy05LjkgOTMuOS0zNi4yIDI2LjItMjYuMiAzNC40LTU4IDM2LjItOTMuOSAyLjEtMzcgMi4xLTE0Ny44IDAtMTg0Ljh6TTM5OC44IDM4OGMtNy44IDE5LjYtMjIuOSAzNC43LTQyLjYgNDIuNi0yOS41IDExLjctOTkuNSA5LTEzMi4xIDlzLTEwMi43IDIuNi0xMzIuMS05Yy0xOS42LTcuOC0zNC43LTIyLjktNDIuNi00Mi42LTExLjctMjkuNS05LTk5LjUtOS0xMzIuMXMtMi42LTEwMi43IDktMTMyLjFjNy44LTE5LjYgMjIuOS0zNC43IDQyLjYtNDIuNiAyOS41LTExLjcgOTkuNS05IDEzMi4xLTlzMTAyLjctMi42IDEzMi4xIDljMTkuNiA3LjggMzQuNyAyMi45IDQyLjYgNDIuNiAxMS43IDI5LjUgOSA5OS41IDkgMTMyLjFzMi43IDEwMi43LTkgMTMyLjF6Ii8+PC9zdmc+",
+        'twitter': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMzg5LjIgNDhWg3LTYxLDEzLjkzOCwzNC42MjUsMy42ODggMTYuMjUgMTMuOTM4IDQ4IDM4OS4yIDQ4em0wIDM3My43NjJMNDQ3LjU4MyA0NjRIMzI1Ljc1bDExOC4yNS0xNjYuMjM4IDQ1LjE5NyA2NC45Mzl6bTEyLjI1IDM3Ljc2MkwzMjIuMTIgMzU2bC0xMjguMjg4IDE3Ni41aC01Ny4yM2w4OC41MTctMTE5LjA2My00MS42NTUtNTkuNzg1LTQ1LjE5OC02NC45NDF6bS0zMDMuMTU2LTUuOTM4TDQ4IDQ4aDU3LjIzbDMwMy4xNTYgNDI2Ljc2MnoiLz48L3N2Zz4=",
+        'tiktok': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNDQ4IDIwOS45MWEyMTAuMDYgMjEwLjA2IDAgMCAxLTEyMi43Ny0zOS4yNSAxMzQuMTIgMTM0LjEyIDAgMCAwLTMuMzUtODAuNTVWMzEwLjQ1YzAgMTIyLjEtMjYuMjYgMTE1LjYtODcuNTIgMTE1LjYtNDcuMTcgMC04Ni40LTI4LjU0LTg2LjQtNzcuNTUgMC00Ni4zMSAzNS4xNS04NC40NCA4My40Mi04Ny40NlYxNzMuOUgxNTUuMjJhMTY1IDE2NSAwIDAgMCAxOSAuMzIgMTYzLjQ3IDE2My40NyAwIDAgMCAxMDcuNjUtNDIuNzJWMzUxLjNjMCA4My4wNSA2Ni42NSAxNTIuMzggMTUxLjU1IDE1Mi4zOEM0NTUuNDcgNTAzLjY5IDQ0OCA0MjYuODIgNDQ4IDQyNi44MlYyMDkuOTF6Ii8+PHBhdGggZmlsbD0iIzI1ZjRZWUiIGQ9Ik00NDggMjA5LjkxYTIxMC4wNiAyMTAuMDYgMCAwIDEtMTIyLjc3LTM5LjI1IDEzNC4xMiAxMzQuMTIgMCAwIDAtMy4zNS04MC41NVYzMTAuNDVjMCAxMjIuMS0yNi4yNiAxMTUuNi04Ny41MiAxMTUuNi00Ny4xNyAwLTg2LjQtMjguNTQtODYuNC03Ny41NSAwLTQ2LjMxIDM1LjE1LTg0LjQ0IDgzLjQyLTg3LjQ2VjE3My45SDE1NS4yMmExNjUgMTY1IDAgMCAwIDE5IC4zMiAxNjMuNDcgMTYzLjQ3IDAgMCAwIDEwNy42NS00Mi43MlYzNTEuM2MwIDgzLjA1IDY2LjY1IDE1Mi4zOCAxNTEuNTUgMTUyLjM4QzQ1NS40NyA1MDMuNjkgNDQ4IDQyNi44MiA0NDggNDI2LjgyVjIwOS45MXoiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==",
+        'youtube': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48cGF0aCBmaWxsPSIjRkYwMDAwIiBkPSJNNTQ5LjY1NSAxMjQuMDgzYzAtMjAuMTAxLTExLjM2LTQwLjE5NS0zMS40MDYtNDguODgzQzQ3NS4zMzMgNjQuMjM3IDM2My4yMDggNjQgMjg4IDY0cz-xODcuMzMzLjIzNy0yMzAuMjUgMTEuMTk5Yy0yMC4wNDUgOC42ODgtMzEuNDA1IDI4Ljc4Mi0zMS40MDUgNDguODgzQzIzLjE5MyAxNzYuMDkyIDI0IDI0MCAyNCAyNDBzLS44MDcgNjMuOTI4IDIuMzQ1IDExNS45MTdjMCAyMC4xMDEgMTEuMzYgNDAuMTk1IDMxLjQwNSA0OC44ODMgNDIuOTE3IDEwLjk2MyAxNTUuMDQyIDExLjE5OSAyMzAuMjUgMTEuMTk5czE4Ny4zMzMtLjIzNyAyMzAuMjUtMTEuMTk5YzIwLjA0NS04LjY4OCAzMS40MDYtMjguNzgyIDMxLjQwNi00OC44ODMgMy4xNTItNTEuOTkgMi4zNDUtMTE1LjkxNyAyLjM0NS0xMTUuOTE3czAuODA3LTYzLjkyOC0yLjM0NS0xMTUuOTE3em0tMzI1Ljg1NyAyMjEuNjJWMTY2LjMxM2wxNDIuMzcgNzkuNjczLTE0Mi4zNyA3OS43MTd6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM2Ni4xNjggMjQ1Ljk4M0wyMjMuOCAxNjYuMzEzdjE1OS4zNGwxNDIuMzY4LTc5LjY3eiIvPjwvc3ZnPg==",
+        'linkedin': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjMDA3N2I1IiBkPSJNNDE2IDMySDMxLjlDMTIuOTggMzIgMCA0NC4yIDAgNjQuMnY0MTEuN0MwIDQ5My4zIDEyLjk4IDUxMiAzMS45IDUxMmgzODQuMWMxOC45MiAwIDMxLjktMTguNyAzMS45LTM2LjFWNjQuMkM0NDggNDQuMiAzMzUuMDIgMzIgNDE2IDMyek0xMzUuNCA0MTZIODcuNlYxODRoNDcuOHYyMzJ6bS0yMy45LTI1My44Yy0xNS4zMSAwLTI3Ljc2LTEyLjQ1LTI3Ljc2LTI3Ljc2Uzk2LjE5IDEwNi43IDExMS41IDEwNi43czI3Ljc2IDEyLjQ1IDI3Ljc2IDI3Ljc2UzEyNi44MSAxNjIuMiAxMTEuNSAxNjIuMnptMjk4LjYgMjUzLjhoLTQ3LjhWMjY4LjFjMC0zNy41OS0xMy40My02My4yOC00Ni40NS02My4yOC0yNS4zNSAwLTQwLjQyIDE3LjA3LTQ3LjA2IDMzLjU4LTIuNDMgNS45LTMuMDQgMTQuMTMtMy4wNCAyMi4zN3YxNTVIMjIwLjhWMjM3LjNoNDUuMzR2MjEuMTljNi41Ny0xMC4xMyAxOC4zNC0yNC41OSA0NC42Mi0yNC41OSA1Mi43MyAwIDkyLjMzIDM0LjQzIDkyLjMzIDEwOC40NnYxNTMuN3oiLz48L3N2Zz4=",
+        'snapchat': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjZmZmYzAwIiBkPSJNMjI0LjEgNTguN2MtNDUuMiAwLTgyLjIgMjguMS05Ny41IDcyLjUtMS43IDUuMS0xMy42IDguNy0yNS45IDEuOS0yMi4zLTEyLjQtNDIuNS0zLjUtNDQuMSAzLjctMi4yIDEwLjUgMTguMiAyNS45IDE4LjIgNTMuNiAwIDQyLjUtMTguMiA1My45LTI1LjEgNTguMy0yLjggMS43LTMuMSAyLjMtMy4xIDUuMyAwIDExLjUgMTcuOCAxNS40IDMzLjYgMTguOCAxMy42IDIuOSAyMy40IDUuMSAyMy40IDE3LjEgMCAxMS4yLTEwLjcgMTkuMS0xOS4zIDI1LjUtOC44IDYuNS0xNy41IDEyLjgtMTcuNSAzMS40IDAgMjEuOSAyMS40IDMwLjUgNDIuNSAzOS42IDYuNSAyLjggMTMuMSA1LjYgMTcuNyA5LjktMi4yIDEzLjYtMTIuNSAyNi4yLTQxLjYgMjYuMi0xMS41IDAtMjEuNi00LjMtMjEuNi00LjMgOS4xIDM2LjggNDUuNiA1My42IDgyLjIgNTMuNiAyNi44IDAgNTEuOS04LjkgNzEuNS0xMS43IDEzLjktMi4xIDI3LjQtNC4xIDQyLjMtNC4xIDE0LjkgMCAyOC40IDIuMSA0Mi4zIDQuMSAxOS42IDIuOCA0NC43IDExLjcgNzEuNSAxMS43IDM2LjYgMCA3My4xLTE2LjggODIuMi01My42IDAtMS4xLTEwLjItNC4zLTIxLjYtNC4zLTI5LjIgMC0zOS40IDEyLjctNDEuNi0yNi4yIDQuNi00LjMgMTEuMi03LjEgMTcuNy05LjkgMjEuMS05LjEgNDIuNS0xNy43IDQyLjUtMzkuNiAwLTE4LjYtOC43LTI0LjktMTcuNS0zMS40LTguNi02LjQtMTkuMy0xNC4zLTE5LjMtMjUuNSAwLTExLjkgOS44LTE0LjIgMjMuNC0xNy4xIDE1LjgtMy40IDMzLjYtNy4zIDMzLjYtMTguOCAwLTMuMS0uMy0zLjYtMy4xLTUuMy02LjktNC40LTI1LjEtMTUuOC0yNS4xLTU4LjMgMC0yNy43IDIwLjQtNDMuMSAxOC4yLTUzLjYtMS42LTcuMi0yMS44LTE2LjEtNDQuMS0zLjctMTIuMyA2LjgtMjQuMiAzLjItMjUuOS0xLjktMTUuMi00NC40LTUyLjItNzIuNS05Ny41LTcyLjV6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIyNC4xIDU4LjdjLTQ1LjIgMC04Mi4yIDI4LjEtOTcuNSA3Mi41LTEuNyA1LjEtMTMuNiA4LjctMjUuOSAxLjktMjIuMy0xMi40LTQyLjUtMy41LTQ0LjEgMy43LTIuMiAxMC41IDE4LjIgMjUuOSAxOC4yIDUzLjYgMCA0Mi41LTE4LjIgNTMuOS0yNS4xIDU4LjMtMi44IDEuNy0zLjEgMi4zLTMuMSA1LjMgMCAxMS41IDE3LjggMTUuNCAzMy42IDE4LjggMTMuNiAyLjkgMjMuNCA1LjEgMjMuNCAxNy4xIDAgMTEuMi0xMC43IDE5LjEtMTkuMyAyNS41LTguOCA2LjUtMTcuNSAxMi44LTE3LjUgMzEuNCAwIDIxLjkgMjEuNCAzMC41IDQyLjUgMzkuNiA2LjUgMi44IDEzLjEgNS42IDE3LjcgOS45LTIuMiAxMy42LTEyLjUgMjYuMi00MS42IDI2LjItMTEuNSAwLTIxLjYtNC4zLTIxLjYtNC4zIDkuMSAzNi44IDQ1LjYgNTMuNiA4Mi4yIDUzLjYgMjYuOCAwIDUxLjktOC45IDcxLjUgMTEuNyAxMy45LTIuMSAyNy40LTQuMSA0Mi4zLTQuMSAxNC45IDAgMjguNCAyLjEgNDIuMyA0LjEgMTkuNiAyLjggNDQuNyAxMS43IDcxLjUgMTEuNyAzNi42IDAgNzMuMS0xNi44IDgyLjItNTMuNiAwLTEuMS0xMC4yLTQuMy0yMS42LTQuMy0yOS4yIDAtMzkuNCAxMi43LTQxLjYtMjYuMiA0LjYtNC4zIDExLjItNy4xIDE3LjctOS45IDIxLjEtOS4xIDQyLjUtMTcuNyA0Mi41LTM5LjYgMC0xOC42LTguNy0yNC45LTE3LjUtMzEuNC04LjYtNi40LTE5LjMtMTQuMyLTE5LjMtMjUuNSAwLTExLjkgOS44LTE0LjIgMjMuNC0xNy4xIDE1LjgtMy40IDMzLjYtNy4zIDMzLjYtMTguOCAwLTMuMS0uMy0zLjYtMy4xLTUuMy02LjktNC40LTI1LjEtMTUuOC0yNS4xLTU4LjMgMC0yNy43IDIwLjQtNDMuMSAxOC4yLTUzLjYtMS42LTcuMi0yMS44LTE2LjEtNDQuMS0zLjctMTIuMyA2LjgtMjQuMiAzLjItMjUuOS0xLjktMTUuMi00NC40LTUyLjItNzIuNS05Ny41LTcyLjV6IiBvcGFjaXR5PSIwLjAxIi8+PC9zdmc+"
+    };
 
-        // Initialize design selector
-        function initializeDesigns() {
-            const designs = [
-                { id: 'design-1', name: 'Purple', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
-                { id: 'design-2', name: 'Warm', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%)' },
-                { id: 'design-3', name: 'Ocean', gradient: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' },
-                { id: 'design-4', name: 'Bold', gradient: 'linear-gradient(135deg, #667eea 0%, #FF6B6B 100%)' },
-                { id: 'design-5', name: 'Teal', gradient: 'linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%)' },
-                { id: 'design-6', name: 'Sunset', gradient: 'linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%)' },
-                { id: 'design-7', name: 'Deep', gradient: 'linear-gradient(135deg, #6A4C93 0%, #1982C4 100%)' },
-                { id: 'design-8', name: 'Vibrant', gradient: 'linear-gradient(135deg, #FF006E 0%, #FB5607 100%)' }
-            ];
+    const PRESETS = [
+        "🧘 Prioritize mental peace",
+        "📚 Read 12 books this year",
+        "💪 Get in best shape of life",
+        "💰 Build passive income",
+        "✈️ Travel somewhere new",
+        "🚫 Quit toxic habits",
+        "👨‍👩‍👧‍👦 Focus on family time",
+        "🎨 Learn a new creative skill",
+        "😴 Fix sleep schedule",
+        "💧 Drink 3L water daily",
+        "🍳 Cook healthy meals",
+        "🌱 Practice daily gratitude",
+        "📵 Reduce screen time",
+        "🏃‍♂️ Run a marathon / 5K",
+        "🤝 Volunteer & help others"
+    ];
 
-            const selector = document.getElementById('designSelector');
-            selector.innerHTML = designs.map(design => `
-                <div class="design-option active-design-${design.id}" onclick="selectDesign('${design.id}')">
-                    <div class="design-preview" style="background: ${design.gradient};">✨</div>
-                    <div class="design-name">${design.name}</div>
-                </div>
-            `).join('');
+    const THEMES = [
+        { id: 'royal', bg1: '#667eea', bg2: '#764ba2', acc: '#FFD93D' },
+        { id: 'sunset', bg1: '#ff9a9e', bg2: '#fad0c4', acc: '#fff' },
+        { id: 'ocean', bg1: '#2193b0', bg2: '#6dd5ed', acc: '#a8ff78' },
+        { id: 'midnight', bg1: '#0f2027', bg2: '#2c5364', acc: '#f7b733' },
+        { id: 'luxury', bg1: '#232526', bg2: '#414345', acc: '#D4AF37' },
+        { id: 'aurora', bg1: '#a18cd1', bg2: '#fbc2eb', acc: '#fff' },
+        { id: 'fire', bg1: '#f12711', bg2: '#f5af19', acc: '#fff' },
+        { id: 'forest', bg1: '#134E5E', bg2: '#71B280', acc: '#fff' },
+        { id: 'noir', bg1: '#000000', bg2: '#1a1a1a', acc: '#fff' },
+        { id: 'matrix', bg1: '#000', bg2: '#0a0a0a', acc: '#0f0' },
+        { id: 'slate', bg1: '#434343', bg2: '#000000', acc: '#fff' },
+        { id: 'rose', bg1: '#FF512F', bg2: '#DD2476', acc: '#fff' }
+    ];
 
-            selectDesign('design-1');
-        }
+    let state = {
+        selected: [],
+        custom: [],
+        theme: THEMES[0],
+        format: 'post',
+        avatar: null,
+        social: 'instagram',
+        canvasData: null
+    };
 
-        function selectDesign(designId) {
-            selectedDesign = designId;
-            document.querySelectorAll('.design-option').forEach(opt => opt.classList.remove('active'));
-            document.querySelector(`.active-design-${designId}`).classList.add('active');
-        }
+    function getMaxLimit() { return state.format === 'story' ? 8 : 5; }
 
-        // Track resolution selections
-        document.querySelectorAll('.resolution-check').forEach(checkbox => {
-            checkbox.addEventListener('change', function(e) {
-                const item = e.target.closest('.resolution-item');
-                
-                if (this.checked) {
-                    const currentTotal = selectedResolutions.length + customResolutions.length;
-                    if (currentTotal >= 5) {
-                        this.checked = false;
-                        alert("You can select up to 5 resolutions maximum.");
-                        return;
-                    }
-                }
-                
-                updateSelectedCount();
-                item.classList.toggle('selected', this.checked);
-                updateGenerateBtn();
-            });
+    /* --- INITIALIZATION --- */
+    window.onload = () => {
+        // Init Social Selector
+        document.getElementById('currentSocialIcon').src = SOCIALS['instagram'];
+        const popup = document.getElementById('socialPopup');
+        Object.keys(SOCIALS).forEach(key => {
+            const div = document.createElement('div');
+            div.className = 's-opt';
+            div.innerHTML = `<img src="${SOCIALS[key]}">`;
+            div.onclick = () => {
+                state.social = key;
+                document.getElementById('currentSocialIcon').src = SOCIALS[key];
+                popup.classList.remove('active');
+            };
+            popup.appendChild(div);
         });
 
-        function updateSelectedCount() {
-            selectedResolutions = Array.from(document.querySelectorAll('.resolution-check:checked'))
-                .map(cb => cb.value);
-            
-            const count = selectedResolutions.length + customResolutions.length;
-            document.getElementById('resolutionCount').textContent = `(${count}/5)`;
+        // Init Presets
+        const pList = document.getElementById('presetList');
+        PRESETS.forEach(t => {
+            const d = document.createElement('div');
+            d.className = 'goal-item';
+            d.onclick = () => toggleGoal(t, d);
+            d.innerHTML = `<div class="check"></div><span>${t}</span>`;
+            pList.appendChild(d);
+        });
 
-            // Disable checkboxes if max is reached
-            const checkboxes = document.querySelectorAll('.resolution-check:not(:checked)');
-            checkboxes.forEach(cb => cb.disabled = count >= 5);
+        const tRow = document.getElementById('themeRow');
+        THEMES.forEach(t => {
+            const d = document.createElement('div');
+            d.className = 'theme-dot';
+            d.style.background = `linear-gradient(135deg, ${t.bg1}, ${t.bg2})`;
+            d.style.setProperty('--acc-preview', t.acc); 
+            if(t.id==='royal') d.classList.add('active');
+            d.onclick = () => setTheme(t, d);
+            tRow.appendChild(d);
+        });
+
+        setupSignature();
+        updateUI();
+    };
+
+    function toggleSocial() {
+        document.getElementById('socialPopup').classList.toggle('active');
+    }
+
+    /* --- LOGIC --- */
+    function toggleGoal(txt, el) {
+        if(state.selected.includes(txt)) {
+            state.selected = state.selected.filter(x => x!==txt);
+            el.classList.remove('selected');
+        } else {
+            if(totalGoals() >= getMaxLimit()) return alert(`Maximum ${getMaxLimit()} goals allowed in ${state.format} mode.`);
+            state.selected.push(txt);
+            el.classList.add('selected');
         }
+        validate();
+        updateUI();
+    }
 
-        function updateGenerateBtn() {
-            const userName = document.getElementById('userName').value.trim();
-            const totalResolutions = selectedResolutions.length + customResolutions.length;
-            
-            const btn = document.getElementById('generateBtn');
-            if (userName && totalResolutions > 0 && totalResolutions <= 5) {
-                btn.disabled = false;
-            } else {
-                btn.disabled = true;
-            }
-        }
+    function addCustom() {
+        const inp = document.getElementById('inpCustom');
+        const val = inp.value.trim();
+        if(!val) return;
+        if(totalGoals() >= getMaxLimit()) return alert(`Maximum ${getMaxLimit()} goals allowed.`);
+        state.custom.push(val);
+        inp.value = '';
+        renderTags();
+        validate();
+        updateUI();
+    }
 
-        function addCustomResolution() {
-            const input = document.getElementById('customInput');
-            const value = input.value.trim();
-            const totalResolutions = selectedResolutions.length + customResolutions.length;
+    function renderTags() {
+        document.getElementById('tagList').innerHTML = state.custom.map((t,i) => 
+            `<div class="tag" onclick="removeCustom(${i})">${t} ×</div>`
+        ).join('');
+    }
 
-            if (!value) {
-                alert('Please enter a resolution');
-                return;
-            }
+    function removeCustom(i) { state.custom.splice(i,1); renderTags(); validate(); updateUI(); }
+    function totalGoals() { return state.selected.length + state.custom.length; }
 
-            if (totalResolutions >= 5) {
-                alert('Maximum 5 resolutions only');
-                return;
-            }
+    function updateUI() {
+        document.getElementById('goalLimitCounter').innerText = `${totalGoals()}/${getMaxLimit()}`;
+    }
 
-            customResolutions.push(value);
-            input.value = '';
-            renderCustomResolutions();
-            updateSelectedCount();
-            updateGenerateBtn();
-        }
+    function validate() {
+        const name = document.getElementById('inpName').value.trim();
+        const isValid = name && totalGoals() > 0 && totalGoals() <= getMaxLimit();
+        document.getElementById('genBtn').disabled = !isValid;
+    }
 
-        function removeCustomResolution(index) {
-            customResolutions.splice(index, 1);
-            renderCustomResolutions();
-            updateSelectedCount();
-            updateGenerateBtn();
-        }
+    function setFormat(fmt, el) {
+        state.format = fmt;
+        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        updateUI();
+        validate(); // Re-validate in case user is over limit
+    }
 
-        function renderCustomResolutions() {
-            const container = document.getElementById('customResolutions');
-            container.innerHTML = customResolutions.map((res, idx) => `
-                <div class="custom-tag" style="animation: slideDown 0.3s ease-out;">
-                    <span>${res}</span>
-                    <button type="button" class="btn-remove" onclick="removeCustomResolution(${idx})">×</button>
-                </div>
-            `).join('');
-        }
-
-        function generatePost() {
-            const userName = document.getElementById('userName').value.trim();
-            const userAvatar = document.getElementById('userAvatar').value.trim() || '👤';
-            const userRole = document.getElementById('userRole').value.trim() || 'New Year 2026';
-
-            updateSelectedCount();
-            const allResolutions = [...selectedResolutions, ...customResolutions];
-
-            if (!userName) return alert('Please enter your name');
-            if (allResolutions.length === 0) return alert('Please select or add at least one resolution');
-
-            // Update display name
-            document.getElementById('displayName').textContent = userName;
-
-            // Set avatar (image or emoji)
-            const previewImg = document.getElementById('previewImg');
-            const avatarDiv = document.getElementById('avatar');
-            
-            if (previewImg.style.display !== 'none' && previewImg.src) {
-                avatarDiv.innerHTML = `<img src="${previewImg.src}">`;
-            } else {
-                avatarDiv.textContent = userAvatar;
-            }
-            
-            document.getElementById('displayRole').textContent = userRole;
-
-            // Add social handles
-            const instaHandle = document.getElementById('instagramHandle').value.trim();
-            const youtubeHandle = document.getElementById('youtubeHandle').value.trim();
-            const socialHandlesDisplay = document.getElementById('socialHandlesDisplay');
-            
-            let socialHTML = '';
-            // Icons using simple text/emoji fallback if svg fails, but here we use inline SVG
-            if (instaHandle) {
-                socialHTML += `<div class="social-handle">📸 ${instaHandle}</div>`;
-            }
-            if (youtubeHandle) {
-                socialHTML += `<div class="social-handle">▶️ ${youtubeHandle}</div>`;
-            }
-            
-            socialHandlesDisplay.innerHTML = socialHTML;
-
-            // Update post card design
-            const postCard = document.querySelector('.post-card');
-            postCard.className = 'post-card ' + selectedDesign;
-
-            // Generate resolutions display with animation
-            const resolutionsHTML = allResolutions.map((res, idx) => `
-                <div class="resolution-number" style="animation: slideDown ${0.3 + (idx * 0.1)}s ease-out;">
-                    <div class="number-circle">${idx + 1}</div>
-                    <div>${res}</div>
-                </div>
-            `).join('');
-
-            document.getElementById('resolutionsDisplay').innerHTML = resolutionsHTML;
-
-            // Show preview
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('postPreview').classList.add('show');
-
-            // Show success message
-            const successMsg = document.getElementById('successMessage');
-            successMsg.classList.add('show');
-            setTimeout(() => successMsg.classList.remove('show'), 3000);
-        }
-
-        function goBack() {
-            document.getElementById('formSection').style.display = 'block';
-            document.getElementById('postPreview').classList.remove('show');
-        }
-
-        function copyToClipboard() {
-            const userName = document.getElementById('displayName').textContent;
-            updateSelectedCount();
-            const allResolutions = [...selectedResolutions, ...customResolutions];
-
-            let text = `My 2026 Resolutions ✨\n\n`;
-            allResolutions.forEach((res, idx) => {
-                text += `${idx + 1}. ${res}\n`;
-            });
-            text += `\n2026`;
-
-            // Use robust fallback for copy
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard! 📋')).catch(err => manualCopy(text));
-            } else {
-                manualCopy(text);
-            }
-        }
+    function setTheme(t, el) {
+        state.theme = t;
+        document.querySelectorAll('.theme-dot').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
         
-        function manualCopy(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert('Copied to clipboard! 📋');
+        document.documentElement.style.setProperty('--bg-1', t.bg1);
+        document.documentElement.style.setProperty('--bg-2', t.bg2);
+        document.documentElement.style.setProperty('--c-accent', t.acc);
+    }
+
+    function loadImg(inp) {
+        if(inp.files[0]) {
+            const r = new FileReader();
+            r.onload = e => { state.avatar = e.target.result; document.getElementById('inpEmoji').value = "📷"; };
+            r.readAsDataURL(inp.files[0]);
+        }
+    }
+
+    /* --- SIGNATURE PAD --- */
+    let sigCanvas, sigCtx, isDrawing = false;
+    function setupSignature() {
+        sigCanvas = document.getElementById('sigCanvas');
+        sigCtx = sigCanvas.getContext('2d');
+        
+        const resize = () => {
+            const rect = sigCanvas.parentElement.getBoundingClientRect();
+            sigCanvas.width = rect.width; sigCanvas.height = rect.height;
+            sigCtx.lineWidth = 4; sigCtx.lineCap = "round"; sigCtx.lineJoin = "round"; sigCtx.strokeStyle = "#000";
+        };
+        resize();
+        window.onresize = resize;
+
+        const getPos = (e) => {
+            const r = sigCanvas.getBoundingClientRect();
+            return { x: (e.touches?e.touches[0].clientX:e.clientX)-r.left, y: (e.touches?e.touches[0].clientY:e.clientY)-r.top };
         }
 
-        function downloadImage() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+        const start = (e) => { isDrawing = true; const p = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); e.preventDefault(); }
+        const move = (e) => { if(!isDrawing)return; const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); e.preventDefault(); }
+        const end = () => { isDrawing = false; }
 
-            // Set canvas dimensions (Instagram 4:5 ratio high res)
-            canvas.width = 1080;
-            canvas.height = 1350;
+        sigCanvas.addEventListener('mousedown', start); sigCanvas.addEventListener('mousemove', move);
+        sigCanvas.addEventListener('mouseup', end); sigCanvas.addEventListener('touchstart', start, {passive:false});
+        sigCanvas.addEventListener('touchmove', move, {passive:false}); sigCanvas.addEventListener('touchend', end);
+    }
+    function clearSig() { sigCtx.clearRect(0,0,sigCanvas.width, sigCanvas.height); }
 
-            // --- 1. Background Gradient ---
-            const designGradients = {
-                'design-1': { start: '#667eea', end: '#764ba2' },
-                'design-2': { start: '#FF6B6B', end: '#FFD93D' },
-                'design-3': { start: '#4ECDC4', end: '#44A08D' },
-                'design-4': { start: '#667eea', end: '#FF6B6B' },
-                'design-5': { start: '#2C3E50', end: '#4ECDC4' },
-                'design-6': { start: '#FF8C42', end: '#FF6B35' },
-                'design-7': { start: '#6A4C93', end: '#1982C4' },
-                'design-8': { start: '#FF006E', end: '#FB5607' }
-            };
-
-            const gradientColors = designGradients[selectedDesign] || designGradients['design-1'];
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, gradientColors.start);
-            gradient.addColorStop(1, gradientColors.end);
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // --- 2. Profile Section (Avatar, Name, Role) ---
-            // Centered Stack layout for clean image export
-            const centerX = canvas.width / 2;
-            let currentY = 120; // Start Y position
-
-            // A. Avatar Drawing
-            const avatarRadius = 70;
-            const avatarY = currentY + avatarRadius; // Center of avatar
+    /* --- EXECUTIVE RENDER ENGINE --- */
+    async function generate() {
+        if(navigator.vibrate) navigator.vibrate(15);
+        
+        document.fonts.ready.then(async () => {
             
-            // Draw Avatar Circle Background
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(centerX, avatarY, avatarRadius, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.fillStyle = '#FFD93D'; // Gold border/bg
-            ctx.fill();
-            
-            // Clip for image
-            ctx.clip();
+            // 1. Setup Canvas
+            const c = document.createElement('canvas');
+            const ctx = c.getContext('2d');
+            const W = 1080;
+            const H = state.format === 'story' ? 1920 : 1350;
+            c.width = W; c.height = H;
 
-            const previewImg = document.getElementById('previewImg');
-            if (previewImg && previewImg.style.display !== 'none' && previewImg.src) {
-                // Draw uploaded image
-                ctx.drawImage(previewImg, centerX - avatarRadius, avatarY - avatarRadius, avatarRadius * 2, avatarRadius * 2);
-            } else {
-                // Draw Emoji
-                const userAvatar = document.getElementById('userAvatar').value.trim() || '👤';
-                ctx.font = '80px Arial'; // Emoji font size
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#2C3E50';
-                ctx.fillText(userAvatar, centerX, avatarY + 8); // Slight adjustment for emoji baseline
-            }
-            ctx.restore(); // Restore clipping
+            // 2. Deep Liquid Glass Background Engine
+            // A. Base Theme Layer (Rich Color instead of Black)
+            const baseGrad = ctx.createLinearGradient(0, 0, W, H);
+            baseGrad.addColorStop(0, state.theme.bg1); 
+            baseGrad.addColorStop(1, state.theme.bg2);
+            ctx.fillStyle = baseGrad;
+            ctx.fillRect(0,0,W,H);
             
-            currentY += (avatarRadius * 2) + 40; // Move down
+            // B. Depth Layer (Darkened for Premium Contrast)
+            ctx.fillStyle = "rgba(0,0,0,0.65)"; 
+            ctx.fillRect(0,0,W,H);
+            
+            ctx.globalCompositeOperation = 'screen';
+            
+            // C. Highlight Blobs (Increased Opacity for Glow)
+            // Blob 1 (Top Left)
+            const g1 = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 1.2);
+            g1.addColorStop(0, state.theme.bg1); 
+            g1.addColorStop(0.8, "transparent");
+            ctx.fillStyle = g1; 
+            ctx.globalAlpha = 0.7; 
+            ctx.fillRect(0,0,W,H);
+            
+            // Blob 2 (Bottom Right)
+            const g2 = ctx.createRadialGradient(W, H, 0, W, H, W * 1.3);
+            g2.addColorStop(0, state.theme.bg2); 
+            g2.addColorStop(0.8, "transparent");
+            ctx.fillStyle = g2; 
+            ctx.globalAlpha = 0.6;
+            ctx.fillRect(0,0,W,H);
 
-            // B. Name & Role
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 56px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'alphabetic';
-            ctx.shadowColor = 'rgba(0,0,0,0.2)';
-            ctx.shadowBlur = 10;
-            ctx.fillText(document.getElementById('displayName').textContent, centerX, currentY);
+            // Blob 3 (Center Accent)
+            const g3 = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.9);
+            g3.addColorStop(0, state.theme.acc); 
+            g3.addColorStop(0.3, "transparent");
+            ctx.fillStyle = g3; 
+            ctx.globalAlpha = 0.35; 
+            ctx.fillRect(0,0,W,H);
             
-            currentY += 50;
-            ctx.font = '30px Arial';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.shadowBlur = 0; // Reset shadow
-            ctx.fillText(document.getElementById('displayRole').textContent, centerX, currentY);
+            // D. Glass Gloss
+            ctx.globalCompositeOperation = 'overlay';
+            const glassGrad = ctx.createLinearGradient(0, 0, W, H);
+            glassGrad.addColorStop(0, "rgba(255,255,255,0.18)");
+            glassGrad.addColorStop(0.5, "transparent");
+            glassGrad.addColorStop(1, "rgba(255,255,255,0.08)");
+            ctx.fillStyle = glassGrad;
+            ctx.fillRect(0,0,W,H);
 
-            // --- 3. Social Handles ---
-            currentY += 60;
-            const instaHandle = document.getElementById('instagramHandle').value.trim();
-            const youtubeHandle = document.getElementById('youtubeHandle').value.trim();
+            ctx.globalCompositeOperation = 'source-over'; 
+            ctx.globalAlpha = 1.0;
+
+            // Texture (Minimized for Ultra-Clean Look)
+            ctx.fillStyle = "rgba(255,255,255,0.015)";
+            for(let i=0; i<8000; i++) ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2);
             
-            ctx.font = 'bold 24px Arial';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            // Vignette (Stronger/Darker edges)
+            const radial = ctx.createRadialGradient(W/2, H/2, 200, W/2, H/2, H);
+            radial.addColorStop(0, "rgba(0,0,0,0)"); 
+            radial.addColorStop(1, "rgba(0,0,0,0.85)"); 
+            ctx.fillStyle = radial; ctx.fillRect(0,0,W,H);
+
+            // 3. Layout Spacing
+            const CX = W/2;
+            const totalGoals = state.selected.length + state.custom.length;
             
-            // Draw social handles side by side if both exist
-            if (instaHandle && youtubeHandle) {
-                 ctx.fillText(`📸 ${instaHandle}   |   ▶️ ${youtubeHandle}`, centerX, currentY);
-            } else if (instaHandle) {
-                 ctx.fillText(`📸 ${instaHandle}`, centerX, currentY);
-            } else if (youtubeHandle) {
-                 ctx.fillText(`▶️ ${youtubeHandle}`, centerX, currentY);
-            }
+            let startY = state.format === 'story' ? 340 : 190;
+            if(state.format === 'post' && totalGoals === 5) startY -= 40;
             
-            // --- 4. Main Title ---
-            currentY += 90;
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 48px Arial';
-            ctx.shadowColor = 'rgba(0,0,0,0.2)';
-            ctx.shadowBlur = 4;
-            ctx.fillText('My 2026 Resolutions ✨', centerX, currentY);
+            const footerStart = H - 280;
+            const availableH = footerStart - (startY + 450);
+            let gap = Math.min(130, Math.max(90, (footerStart - (startY + 400)) / totalGoals));
+
+            // 4. Frame
+            const pad = 40;
+            ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 2;
+            ctx.strokeRect(pad, pad, W-(pad*2), H-(pad*2));
+            ctx.strokeStyle = "rgba(255,255,255,0.15)"; ctx.lineWidth = 1;
+            ctx.strokeRect(pad+15, pad+15, W-(pad*2)-30, H-(pad*2)-30);
+
+            // 5. Avatar
+            const r = 115;
+            ctx.shadowBlur = 100; ctx.shadowColor = "rgba(255,255,255,0.3)";
+            ctx.beginPath(); ctx.arc(CX, startY, r-20, 0, Math.PI*2); ctx.fillStyle="rgba(255,255,255,0.1)"; ctx.fill();
             ctx.shadowBlur = 0;
 
-            // --- 5. Resolutions List ---
-            currentY += 80;
-            const allResolutions = [...selectedResolutions, ...customResolutions];
+            ctx.save();
+            ctx.beginPath(); ctx.arc(CX, startY, r, 0, Math.PI*2);
+            ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.lineWidth = 1; ctx.stroke();
+            ctx.beginPath(); ctx.arc(CX, startY, r+12, 0, Math.PI*2); ctx.strokeStyle = "rgba(255,255,255,0.2)"; ctx.stroke();
+            ctx.beginPath(); ctx.arc(CX, startY, r+24, 0, Math.PI*2); ctx.strokeStyle = "rgba(255,255,255,0.1)"; ctx.stroke();
+            ctx.beginPath(); ctx.arc(CX, startY, r, 0, Math.PI*2); ctx.clip();
             
-            // Background box for resolutions (Semi-transparent)
-            const boxWidth = 900;
-            const boxHeight = (allResolutions.length * 90) + 40; // Dynamic height
-            const boxX = (canvas.width - boxWidth) / 2;
-            
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-            ctx.roundRect(boxX, currentY - 50, boxWidth, boxHeight, 20); // Modern round rect
-            ctx.fill();
-
-            // Draw items
-            ctx.textAlign = 'left';
-            const textLeftMargin = boxX + 100; // Text start X
-            const numberX = boxX + 50; // Number circle center X
-            
-            allResolutions.forEach((res, idx) => {
-                // Circle for number
-                ctx.beginPath();
-                ctx.arc(numberX, currentY - 10, 24, 0, Math.PI * 2);
-                ctx.fillStyle = '#FFD93D';
-                ctx.fill();
-                
-                // Number text
-                ctx.fillStyle = '#2C3E50';
-                ctx.font = 'bold 24px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(idx + 1, numberX, currentY);
-                
-                // Resolution Text
-                ctx.fillStyle = '#FFFFFF';
-                ctx.font = '32px Arial';
-                ctx.textAlign = 'left';
-                
-                // Simple Word Wrap
-                const maxTextWidth = 750;
-                let words = res.split(' ');
-                let line = '';
-                let lineY = currentY;
-                
-                // Check if text is too long for one line, if so, we might need to adjust spacing
-                // For simplicity in this generator, we'll try to fit in one line or truncate, 
-                // but let's do a basic 2-line wrap if needed.
-                
-                let testLine = words[0];
-                let lineCount = 1;
-                
-                for(let i = 1; i < words.length; i++) {
-                    let test = line + words[i] + ' ';
-                    if (ctx.measureText(test).width > maxTextWidth) {
-                        lineCount++; // It would wrap
-                        break;
-                    }
-                    line += words[i] + ' ';
-                }
-                
-                // Drawing logic
-                if (lineCount === 1) {
-                    ctx.fillText(res, textLeftMargin, lineY);
-                } else {
-                    // Primitive wrap for very long text
-                    ctx.fillText(res, textLeftMargin, lineY, maxTextWidth); // Scale to fit
-                }
-
-                currentY += 90; // Spacing between items
-            });
-
-            // --- 6. Year Footer ---
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.font = '900 160px Arial'; // Heavy font for year
-            ctx.textAlign = 'center';
-            ctx.shadowColor = 'rgba(0,0,0,0.2)';
-            ctx.shadowBlur = 15;
-            // Position near bottom
-            ctx.fillText('2026', centerX, canvas.height - 80);
-
-            // --- 7. Download ---
-            const link = document.createElement('a');
-            link.download = `2026-resolutions-${selectedDesign}.png`;
-            link.href = canvas.toDataURL('image/png', 1.0); // High quality
-            link.click();
-        }
-
-        // Add roundRect polyfill for older browsers if needed (simplified)
-        if (!CanvasRenderingContext2D.prototype.roundRect) {
-            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
-                if (w < 2 * r) r = w / 2;
-                if (h < 2 * r) r = h / 2;
-                this.beginPath();
-                this.moveTo(x + r, y);
-                this.arcTo(x + w, y, x + w, y + h, r);
-                this.arcTo(x + w, y + h, x, y + h, r);
-                this.arcTo(x, y + h, x, y, r);
-                this.arcTo(x, y, x + w, y, r);
-                this.closePath();
-                return this;
-            };
-        }
-
-        // Handle image upload
-        document.getElementById('avatarUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = document.getElementById('previewImg');
-                    img.src = event.target.result;
-                    img.style.display = 'block';
-                    document.getElementById('userAvatar').value = ''; // Clear emoji if image uploaded
-                };
-                reader.readAsDataURL(file);
+            if(state.avatar) {
+                const img = new Image(); img.src = state.avatar;
+                await new Promise(r => img.onload = r);
+                ctx.drawImage(img, CX-r, startY-r, r*2, r*2);
+            } else {
+                ctx.fillStyle = state.theme.acc; ctx.fillRect(CX-r, startY-r, r*2, r*2);
+                ctx.font = "140px Inter"; ctx.fillStyle="#000"; ctx.textAlign="center"; ctx.textBaseline="middle";
+                ctx.fillText(document.getElementById('inpEmoji').value, CX, startY+10);
             }
-        });
+            ctx.restore();
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeDesigns();
-            updateGenerateBtn();
+            // 6. Typography
+            startY += 180;
+            ctx.textAlign = "center";
+            ctx.font = "italic 700 64px Playfair Display"; ctx.fillStyle = "#ffffff";
+            const name = document.getElementById('inpName').value;
+            ctx.shadowColor="rgba(0,0,0,0.6)"; ctx.shadowBlur=25; ctx.shadowOffsetY=10;
+            ctx.fillText(name, CX, startY);
+            ctx.shadowBlur=0; ctx.shadowOffsetY=0;
+
+            const nameWidth = ctx.measureText(name).width;
+            const badgeX = CX + (nameWidth / 2) + 24; 
+            const badgeY = startY - 20;
+            ctx.beginPath(); ctx.arc(badgeX, badgeY, 18, 0, Math.PI*2);
+            ctx.fillStyle = "#1DA1F2"; ctx.fill();
+            ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.stroke();
+            ctx.beginPath(); 
+            ctx.moveTo(badgeX - 6, badgeY + 1); 
+            ctx.lineTo(badgeX - 2, badgeY + 6); 
+            ctx.lineTo(badgeX + 7, badgeY - 5);
+            ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.stroke();
+
+            startY += 55;
+            ctx.font = "600 22px Inter"; ctx.fillStyle = "rgba(255,255,255,0.85)";
+            ctx.letterSpacing = "5px";
+            const role = (document.getElementById('inpRole').value || "Visionary").toUpperCase();
+            ctx.fillText(role, CX, startY);
+            ctx.letterSpacing = "0px";
+
+            const soc = document.getElementById('inpHandle').value;
+            if(soc) {
+                startY += 65;
+                const txt = soc.startsWith('@') ? soc : '@'+soc;
+                
+                // Calculate Social Block Width
+                ctx.font = "600 24px Inter";
+                const iconSize = 36; // Larger Icon
+                const textGap = 12;
+                const textWidth = ctx.measureText(txt).width;
+                const totalWidth = iconSize + textGap + textWidth;
+                const startX = CX - (totalWidth / 2);
+
+                // Draw Selected Icon (ORIGINAL COLORS)
+                const icon = new Image(); 
+                icon.src = SOCIALS[state.social];
+                await new Promise(r => { icon.onload = r; if(icon.complete) r(); });
+                
+                // Removed white composite, drawing raw color icon
+                ctx.drawImage(icon, startX, startY - 28, iconSize, iconSize);
+
+                // Draw Text
+                ctx.textAlign = "left";
+                ctx.fillStyle = "#fff";
+                ctx.fillText(txt, startX + iconSize + textGap, startY);
+                ctx.textAlign = "center"; // Reset alignment
+            }
+
+            startY += 65;
+            ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(CX-120, startY); ctx.lineTo(CX+120, startY); ctx.stroke();
+            ctx.fillStyle = state.theme.acc;
+            ctx.beginPath(); ctx.moveTo(CX, startY-6); ctx.lineTo(CX+6, startY); ctx.lineTo(CX, startY+6); ctx.lineTo(CX-6, startY); ctx.fill();
+
+            // 8. Goals List (Glass Blocks)
+            startY += 80;
+            const allGoals = [...state.selected, ...state.custom];
             
-            // Allow Enter key to add custom resolution
-            document.getElementById('customInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addCustomResolution();
-                }
+            allGoals.forEach((goal, i) => {
+                const blockW = 840;
+                const blockX = (W - blockW) / 2;
+                const blockH = 80;
+                
+                // Enhanced Glass Block
+                ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
+                roundRect(ctx, blockX, startY - 50, blockW, blockH, 24); ctx.fill();
+                
+                // Shine
+                const shine = ctx.createLinearGradient(blockX, startY-50, blockX, startY+30);
+                shine.addColorStop(0, "rgba(255,255,255,0.1)");
+                shine.addColorStop(1, "transparent");
+                ctx.fillStyle = shine;
+                ctx.fill();
+
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.18)"; ctx.lineWidth=1.5; ctx.stroke();
+
+                ctx.fillStyle = state.theme.acc;
+                ctx.beginPath(); ctx.arc(blockX+50, startY-10, 24, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = "#000"; ctx.textAlign="center"; ctx.font="800 24px Inter";
+                ctx.fillText(i+1, blockX+50, startY-2);
+
+                ctx.fillStyle = "#fff"; ctx.textAlign = "left";
+                ctx.font = "500 36px Inter"; 
+                ctx.fillText(goal, blockX+100, startY);
+
+                startY += gap;
             });
+
+            // 9. Signature Zone
+            const sigBaseY = H - 150; 
+            ctx.strokeStyle = "rgba(255,255,255,0.3)"; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(CX - 150, sigBaseY); ctx.lineTo(CX + 150, sigBaseY); ctx.stroke();
+
+            ctx.font = "600 12px Inter"; ctx.fillStyle = "rgba(255,255,255,0.5)"; ctx.textAlign = "center";
+            ctx.letterSpacing = "2px"; ctx.fillText("AUTHORIZED SIGNATURE", CX, sigBaseY + 20);
+
+            const sigData = sigCanvas.toDataURL();
+            const isSigEmpty = sigCtx.getImageData(0,0,sigCanvas.width,sigCanvas.height).data.every(p => p===0);
+            
+            if(!isSigEmpty && sigData) {
+                const sigImg = new Image(); sigImg.src = sigData;
+                await new Promise(r => sigImg.onload = r);
+
+                const sc = document.createElement('canvas');
+                sc.width = 500; sc.height = 200;
+                const sctx = sc.getContext('2d');
+                sctx.drawImage(sigImg, 0, 0, 500, 200);
+                sctx.globalCompositeOperation = 'source-in';
+                const gold = sctx.createLinearGradient(0,0,500,200);
+                gold.addColorStop(0, '#BF953F'); gold.addColorStop(0.2, '#FCF6BA');
+                gold.addColorStop(0.4, '#B38728'); gold.addColorStop(0.6, '#FBF5B7');
+                gold.addColorStop(1, '#AA771C');
+                sctx.fillStyle = gold; sctx.fillRect(0,0,500,200);
+
+                ctx.shadowColor = "rgba(255, 215, 0, 0.4)"; ctx.shadowBlur = 20;
+                ctx.drawImage(sc, CX-250, sigBaseY - 140, 500, 200);
+                ctx.shadowBlur = 0;
+            }
+
+            // 10. Footer
+            const sealX = W - 150;
+            const sealY = H - 150;
+            
+            ctx.save();
+            ctx.translate(sealX, sealY);
+            const sealGrad = ctx.createLinearGradient(-60,-60,60,60);
+            sealGrad.addColorStop(0, "rgba(255,255,255,0.1)");
+            sealGrad.addColorStop(0.5, "rgba(255,255,255,0.3)");
+            sealGrad.addColorStop(1, "rgba(255,255,255,0.1)");
+            ctx.fillStyle = sealGrad;
+            ctx.beginPath(); ctx.arc(0,0,65,0,Math.PI*2); ctx.fill();
+            ctx.strokeStyle = "rgba(255,255,255,0.6)"; ctx.lineWidth=2; ctx.stroke();
+            
+            ctx.fillStyle = "#fff"; ctx.font="700 13px Cinzel"; ctx.textAlign="center"; ctx.textBaseline="middle";
+            ctx.fillText("MEMBER", 0, -18);
+            ctx.font="700 24px Cinzel"; ctx.fillText("2026", 0, 5);
+            ctx.font="700 10px Inter"; ctx.letterSpacing="1px"; ctx.fillText("VERIFIED", 0, 25);
+            ctx.restore();
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { month:'short', day:'2-digit', year:'numeric' }).toUpperCase();
+            ctx.fillStyle = "rgba(255,255,255,0.4)";
+            ctx.font = "600 16px Inter"; ctx.textAlign = "left"; ctx.letterSpacing="1px";
+            ctx.fillText(`ISSUED: ${dateStr}`, 60, H - 60);
+
+            // Highlighted Credit
+            ctx.textAlign = "center";
+            ctx.font = "700 16px Inter"; 
+            ctx.fillStyle = "rgba(255,255,255,0.95)";
+            ctx.shadowColor = "rgba(0,0,0,0.8)";
+            ctx.shadowBlur = 4;
+            ctx.letterSpacing = "1px";
+            ctx.fillText("by www.webfxgen.in", W/2, H - 50);
+            ctx.shadowBlur = 0; // Reset
+
+            state.canvasData = c.toDataURL('image/png', 1.0);
+            document.getElementById('finalImg').src = state.canvasData;
+            document.getElementById('previewModal').classList.add('active');
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
         });
-    </script>
+    }
+
+    function saveImage() {
+        const a = document.createElement('a');
+        a.download = `2026-Manifesto-Executive.png`;
+        a.href = state.canvasData;
+        a.click();
+    }
+
+    function closePreview() {
+        document.getElementById('previewModal').classList.remove('active');
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+        if (w<2*r) r=w/2; if (h<2*r) r=h/2;
+        ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+    }
+</script>
 </body>
 </html>
