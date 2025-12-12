@@ -75,30 +75,35 @@
         input[type="text"]:focus { outline: none; background: #fff; border-color: #000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform:translateY(-1px); }
 
         .social-wrapper { position: relative; display: flex; gap: 8px; flex: 1.3; }
+        
+        /* Updated Social Trigger - White Background */
         .social-trigger {
-            width: 54px; flex-shrink: 0; background: #222; /* Dark bg for logo visibility */
-            border: 1px solid rgba(0,0,0,0.2); border-radius: 16px;
+            width: 54px; flex-shrink: 0; background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.15); border-radius: 16px;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.2s; position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        .social-trigger:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .social-trigger:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); border-color: #000; }
         .social-trigger img { width: 24px; height: 24px; display: block; }
         
-        /* Selector Popup - Dark Theme for visibility of white icons */
+        /* Updated Social Popup - White Background */
         .social-popup {
-            position: absolute; top: 110%; left: 0; background: #1a1a1a;
-            padding: 10px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            display: none; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            position: absolute; top: 110%; left: 0; background: #ffffff;
+            padding: 12px; border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.05);
+            display: none; grid-template-columns: repeat(3, 1fr); gap: 10px;
             z-index: 20; animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.1);
         }
         .social-popup.active { display: grid; }
+        
+        /* Updated Option Style */
         .s-opt {
-            width: 44px; height: 44px; border-radius: 12px; background: #333;
+            width: 44px; height: 44px; border-radius: 12px; background: #f4f4f4;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: 0.2s;
+            transition: 0.2s; border: 1px solid transparent;
         }
-        .s-opt:hover { background: #444; transform: scale(1.1); }
+        .s-opt:hover { background: #fff; border-color: #eee; transform: scale(1.1); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
         .s-opt img { width: 24px; height: 24px; }
 
         .format-switch { display: flex; background: rgba(0,0,0,0.04); padding: 5px; border-radius: 18px; margin-bottom: 28px; }
@@ -279,14 +284,28 @@
 </div>
 
 <script>
-    // CORRECTED SVG LOGOS (All Cleaned & Verified)
+    // FIXED LOGOS (Official Brand Colors)
     const SOCIALS = {
+        // Instagram (Gradient)
         'instagram': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIxMDAlIiB5MT0iMTAwJSIgeDI9IjAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzRlNjNkMyIvPjxzdG9wIG9mZnNldD0iMC41IiBzdG9wLWNvbG9yPSIjZmE3ZTFlIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmNkZjc5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZmlsbD0idXJsKCNhKSIgZD0iTTIyNC4xIDE0MWMtNjMuNiAwLTExNC45IDUxLjMtMTE0LjkgMTE0LjlzNTEuMyAxMTQuOSAxMTQuOSAxMTQuOXMxMTQuOS01MS4zIDExNC45LTExNC45UzMzOSAyNTUuOSAzMzkgMjU1LjkgMjg3LjcgMTQxIDIyNC4xIDE0MXptMCAxODkuNmMtNDEuMSAwLTc0LjctMzMuNS03NC43LTc0LjdzMzMuNS03NC43IDc0LjctNzQuNyA3NC43IDMzLjUgNzQuNyA3NC43LTMzLjUgNzQuNy03NC43IDc0Ljd6bTE0Ni40LTE5NC4zYzAgMTQuOS0xMiAyNi44LTI2LjggMjYuOC0xNC45IDAtMjYuOC0xMi0yNi44LTI2LjhzMTItMjYuOCAyNi44LTI2LjggMjYuOCAxMiAyNi44IDI2Ljh6bTc2LjEgMjcuMmMtMS43LTM1LjktOS45LTY3LjctMzYuMi05My45LTI2LjItMjYuMi01OC0zNC40LTkzLjktMzYuMi0zNy0yLjEtMTQ3LjktMi4xLTE4NC45IDAtMzUuOCAxLjctNjcuNiA5LjktOTMuOSAzNi4xcy0zNC40IDU4LTM2LjIgOTMuOWMtMi4xIDM3LTIuMSAxNDcuOSAwIDE4NC45IDEuNyAzNS45IDkuOSA2Ny43IDM2LjIgOTMuOXM1OCAzNC40IDkzLjkgMzYuMmMzNyAyLjEgMTQ3LjkgMi4xIDE4NC45IDAgMzUuOS0xLjcgNjcuNy05LjkgOTMuOS0zNi4yIDI2LjItMjYuMiAzNC40LTU4IDM2LjItOTMuOSAyLjEtMzcgMi4xLTE0Ny44IDAtMTg0Ljh6TTM5OC44IDM4OGMtNy44IDE5LjYtMjIuOSAzNC43LTQyLjYgNDIuNi0yOS41IDExLjctOTkuNSA5LTEzMi4xIDlzLTEwMi43IDIuNi0xMzIuMS05Yy0xOS42LTcuOC0zNC43LTIyLjktNDIuNi00Mi42LTExLjctMjkuNS05LTk5LjUtOS0xMzIuMXMtMi42LTEwMi43IDktMTMyLjFjNy44LTE5LjYgMjIuOS0zNC43IDQyLjYtNDIuNiAyOS41LTExLjcgOTkuNS05IDEzMi4xLTlzMTAyLjctMi42IDEzMi4xIDljMTkuNiA3LjggMzQuNyAyMi45IDQyLjYgNDIuNiAxMS43IDI5LjUgOSA5OS41IDkgMTMyLjFzMi43IDEwMi43LTkgMTMyLjF6Ii8+PC9zdmc+",
-        'twitter': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMzg5LjIgNDhWg3LTYxLDEzLjkzOCwzNC42MjUsMy42ODggMTYuMjUgMTMuOTM4IDQ4IDM4OS4yIDQ4em0wIDM3My43NjJMNDQ3LjU4MyA0NjRIMzI1Ljc1bDExOC4yNS0xNjYuMjM4IDQ1LjE5NyA2NC45Mzl6bTEyLjI1IDM3Ljc2MkwzMjIuMTIgMzU2bC0xMjguMjg4IDE3Ni41aC01Ny4yM2w4OC41MTctMTE5LjA2My00MS42NTUtNTkuNzg1LTQ1LjE5OC02NC45NDF6bS0zMDMuMTU2LTUuOTM4TDQ4IDQ4aDU3LjIzbDMwMy4xNTYgNDI2Ljc2MnoiLz48L3N2Zz4=",
-        'tiktok': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNDQ4IDIwOS45MWEyMTAuMDYgMjEwLjA2IDAgMCAxLTEyMi43Ny0zOS4yNSAxMzQuMTIgMTM0LjEyIDAgMCAwLTMuMzUtODAuNTVWMzEwLjQ1YzAgMTIyLjEtMjYuMjYgMTE1LjYtODcuNTIgMTE1LjYtNDcuMTcgMC04Ni40LTI4LjU0LTg2LjQtNzcuNTUgMC00Ni4zMSAzNS4xNS04NC40NCA4My40Mi04Ny40NlYxNzMuOUgxNTUuMjJhMTY1IDE2NSAwIDAgMCAxOSAuMzIgMTYzLjQ3IDE2My40NyAwIDAgMCAxMDcuNjUtNDIuNzJWMzUxLjNjMCA4My4wNSA2Ni42NSAxNTIuMzggMTUxLjU1IDE1Mi4zOEM0NTUuNDcgNTAzLjY5IDQ0OCA0MjYuODIgNDQ4IDQyNi44MlYyMDkuOTF6Ii8+PHBhdGggZmlsbD0iIzI1ZjRZWUiIGQ9Ik00NDggMjA5LjkxYTIxMC4wNiAyMTAuMDYgMCAwIDEtMTIyLjc3LTM5LjI1IDEzNC4xMiAxMzQuMTIgMCAwIDAtMy4zNS04MC41NVYzMTAuNDVjMCAxMjIuMS0yNi4yNiAxMTUuNi04Ny41MiAxMTUuNi00Ny4xNyAwLTg2LjQtMjguNTQtODYuNC03Ny41NSAwLTQ2LjMxIDM1LjE1LTg0LjQ0IDgzLjQyLTg3LjQ2VjE3My45SDE1NS4yMmExNjUgMTY1IDAgMCAwIDE5IC4zMiAxNjMuNDcgMTYzLjQ3IDAgMCAwIDEwNy42NS00Mi43MlYzNTEuM2MwIDgzLjA1IDY2LjY1IDE1Mi4zOCAxNTEuNTUgMTUyLjM4QzQ1NS40NyA1MDMuNjkgNDQ4IDQyNi44MiA0NDggNDI2LjgyVjIwOS45MXoiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==",
-        'youtube': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48cGF0aCBmaWxsPSIjRkYwMDAwIiBkPSJNNTQ5LjY1NSAxMjQuMDgzYzAtMjAuMTAxLTExLjM2LTQwLjE5NS0zMS40MDYtNDguODgzQzQ3NS4zMzMgNjQuMjM3IDM2My4yMDggNjQgMjg4IDY0cz-xODcuMzMzLjIzNy0yMzAuMjUgMTEuMTk5Yy0yMC4wNDUgOC42ODgtMzEuNDA1IDI4Ljc4Mi0zMS40MDUgNDguODgzQzIzLjE5MyAxNzYuMDkyIDI0IDI0MCAyNCAyNDBzLS44MDcgNjMuOTI4IDIuMzQ1IDExNS45MTdjMCAyMC4xMDEgMTEuMzYgNDAuMTk1IDMxLjQwNSA0OC44ODMgNDIuOTE3IDEwLjk2MyAxNTUuMDQyIDExLjE5OSAyMzAuMjUgMTEuMTk5czE4Ny4zMzMtLjIzNyAyMzAuMjUtMTEuMTk5YzIwLjA0NS04LjY4OCAzMS40MDYtMjguNzgyIDMxLjQwNi00OC44ODMgMy4xNTItNTEuOTkgMi4zNDUtMTE1LjkxNyAyLjM0NS0xMTUuOTE3czAuODA3LTYzLjkyOC0yLjM0NS0xMTUuOTE3em0tMzI1Ljg1NyAyMjEuNjJWMTY2LjMxM2wxNDIuMzcgNzkuNjczLTE0Mi4zNyA3OS43MTd6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM2Ni4xNjggMjQ1Ljk4M0wyMjMuOCAxNjYuMzEzdjE1OS4zNGwxNDIuMzY4LTc5LjY3eiIvPjwvc3ZnPg==",
+        
+        // Facebook (Blue 'F' only)
+        'facebook': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNTEyIj48cGF0aCBmaWxsPSIjMTg3N0YyIiBkPSJNMjc5LjE0IDI4OGwxNC4yMi05Mi42NmgtODguOTF2LTYwLjEzYzAtMjUuMzUgMTIuNDItNTAuMDYgNTIuMjQtNTAuMDZoNDAuNDJWNi4yNlMyNjAuNDMgMCAyMjUuMzYgMGMtNzMuMjIgMC0xMjEuMDggNDQuMzgtMTIxLjA4IDEyNC43MnY3MC42MkgyMi44OVYyODhoODEuMzl2MjI0aDEwMC4xN1YyODh6Ii8+PC9zdmc+",
+        
+        // Twitter/X (Black - Updated for Visibility)
+        'twitter': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMzg5LjIgNDhoNzAuNkwzMDUuNiAyMjQuMiA0ODcgNDY0SDM0NUwyMzMuNyAzMTguNiAxMDYuNSA0NjRIMzUuOEwyMDAuNyAyNzUuNSAyNi44IDQ4SDE3Mi40TDI3Mi45IDE4MC45IDM4OS4yIDQ4ek0zNjUuNyA0NDVoMzMuMUwxMjAuOSA2Ny44aC0zNS4zTDM2NS43IDQ0NXoiLz48L3N2Zz4=",
+        
+        // TikTok (Black 't' only - Updated for Visibility)
+        'tiktok': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjMDAwIiBkPSJNNDQ4IDIwOS45MWEyMTAuMDYgMjEwLjA2IDAgMCAxLTEyMi43Ny0zOS4yNVYzNDkuMzhBMTYyLjU1IDE2Mi41NSAwIDEgMSAxODUgMTg4LjMxVjI3OC4yYTc0LjYyIDc0LjYyIDAgMSAwIDUyLjIzIDcxLjE4VjBsODggMGExMjEuMTggMTIxLjE4IDAgMCAwIDEuODYgMjIuMTdoMTIxWiIvPjwvc3ZnPg==",
+        
+        // YouTube (Red)
+        'youtube': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48cGF0aCBmaWxsPSIjRkYwMDAwIiBkPSJNNTQ5LjY1NSAxMjQuMDgzYy02LjI4MS0yMy42NS0yNC43ODctNDIuMjc2LTQ4LjI4NC00OC41OTdDNDU4Ljc4MSA2NCAyODggNjQgMjg4IDY0UzExNy4yMiA2NCA3NC42MjkgNzUuNDg2Yy0yMy40OTcgNi4zMjItNDIuMDAzIDI0Ljk0Ny00OC4yODQgNDguNTk3LTExLjQxMiA0Mi44NjctMTEuNDEyIDEzMi4zMDUtMTEuNDEyIDEzMi4zMDVzMCA4OS40MzggMTEuNDEyIDEzMi4zMDVjNi4yODEgMjMuNjUgMjQuNzg3IDQxLjk4IDQ4LjI4NCA0OC41OTcgNDIuNjkxIDExLjQ4NiAyMTMuMzcxIDExLjQ4NnMxNzAuNzggMCAyMTMuMzcxLTExLjQ4NmMyMy40OTctNi42MTcgNDIuMDAzLTI0Ljk0NyA0OC4yODQtNDguNTk3IDExLjQxMi00Mi44NjcgMTEuNDEyLTEzMi4zMDUgMTEuNDEyLTEzMi4zMDVzMC04OS40MzgtMTEuNDEyLTEzMi4zMDV6Ii8+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTIzMiAzMzcuNzRWMTc1LjMzbDE0My44IDgxLjIwNXoiLz48L3N2Zz4=",
+        
+        // LinkedIn (Blue)
         'linkedin': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjMDA3N2I1IiBkPSJNNDE2IDMySDMxLjlDMTIuOTggMzIgMCA0NC4yIDAgNjQuMnY0MTEuN0MwIDQ5My4zIDEyLjk4IDUxMiAzMS45IDUxMmgzODQuMWMxOC45MiAwIDMxLjktMTguNyAzMS45LTM2LjFWNjQuMkM0NDggNDQuMiAzMzUuMDIgMzIgNDE2IDMyek0xMzUuNCA0MTZIODcuNlYxODRoNDcuOHYyMzJ6bS0yMy45LTI1My44Yy0xNS4zMSAwLTI3Ljc2LTEyLjQ1LTI3Ljc2LTI3Ljc2Uzk2LjE5IDEwNi43IDExMS41IDEwNi43czI3Ljc2IDEyLjQ1IDI3Ljc2IDI3Ljc2UzEyNi44MSAxNjIuMiAxMTEuNSAxNjIuMnptMjk4LjYgMjUzLjhoLTQ3LjhWMjY4LjFjMC0zNy41OS0xMy40My02My4yOC00Ni40NS02My4yOC0yNS4zNSAwLTQwLjQyIDE3LjA3LTQ3LjA2IDMzLjU4LTIuNDMgNS45LTMuMDQgMTQuMTMtMy4wNCAyMi4zN3YxNTVIMjIwLjhWMjM3LjNoNDUuMzR2MjEuMTljNi41Ny0xMC4xMyAxOC4zNC0yNC41OSA0NC42Mi0yNC41OSA1Mi43MyAwIDkyLjMzIDM0LjQzIDkyLjMzIDEwOC40NnYxNTMuN3oiLz48L3N2Zz4=",
-        'snapchat': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjZmZmYzAwIiBkPSJNMjI0LjEgNTguN2MtNDUuMiAwLTgyLjIgMjguMS05Ny41IDcyLjUtMS43IDUuMS0xMy42IDguNy0yNS45IDEuOS0yMi4zLTEyLjQtNDIuNS0zLjUtNDQuMSAzLjctMi4yIDEwLjUgMTguMiAyNS45IDE4LjIgNTMuNiAwIDQyLjUtMTguMiA1My45LTI1LjEgNTguMy0yLjggMS43LTMuMSAyLjMtMy4xIDUuMyAwIDExLjUgMTcuOCAxNS40IDMzLjYgMTguOCAxMy42IDIuOSAyMy40IDUuMSAyMy40IDE3LjEgMCAxMS4yLTEwLjcgMTkuMS0xOS4zIDI1LjUtOC44IDYuNS0xNy41IDEyLjgtMTcuNSAzMS40IDAgMjEuOSAyMS40IDMwLjUgNDIuNSAzOS42IDYuNSAyLjggMTMuMSA1LjYgMTcuNyA5LjktMi4yIDEzLjYtMTIuNSAyNi4yLTQxLjYgMjYuMi0xMS41IDAtMjEuNi00LjMtMjEuNi00LjMgOS4xIDM2LjggNDUuNiA1My42IDgyLjIgNTMuNiAyNi44IDAgNTEuOS04LjkgNzEuNS0xMS43IDEzLjktMi4xIDI3LjQtNC4xIDQyLjMtNC4xIDE0LjkgMCAyOC40IDIuMSA0Mi4zIDQuMSAxOS42IDIuOCA0NC43IDExLjcgNzEuNSAxMS43IDM2LjYgMCA3My4xLTE2LjggODIuMi01My42IDAtMS4xLTEwLjItNC4zLTIxLjYtNC4zLTI5LjIgMC0zOS40IDEyLjctNDEuNi0yNi4yIDQuNi00LjMgMTEuMi03LjEgMTcuNy05LjkgMjEuMS05LjEgNDIuNS0xNy43IDQyLjUtMzkuNiAwLTE4LjYtOC43LTI0LjktMTcuNS0zMS40LTguNi02LjQtMTkuMy0xNC4zLTE5LjMtMjUuNSAwLTExLjkgOS44LTE0LjIgMjMuNC0xNy4xIDE1LjgtMy40IDMzLjYtNy4zIDMzLjYtMTguOCAwLTMuMS0uMy0zLjYtMy4xLTUuMy02LjktNC40LTI1LjEtMTUuOC0yNS4xLTU4LjMgMC0yNy43IDIwLjQtNDMuMSAxOC4yLTUzLjYtMS42LTcuMi0yMS44LTE2LjEtNDQuMS0zLjctMTIuMyA2LjgtMjQuMiAzLjItMjUuOS0xLjktMTUuMi00NC40LTUyLjItNzIuNS05Ny41LTcyLjV6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIyNC4xIDU4LjdjLTQ1LjIgMC04Mi4yIDI4LjEtOTcuNSA3Mi41LTEuNyA1LjEtMTMuNiA4LjctMjUuOSAxLjktMjIuMy0xMi40LTQyLjUtMy41LTQ0LjEgMy43LTIuMiAxMC41IDE4LjIgMjUuOSAxOC4yIDUzLjYgMCA0Mi41LTE4LjIgNTMuOS0yNS4xIDU4LjMtMi44IDEuNy0zLjEgMi4zLTMuMSA1LjMgMCAxMS41IDE3LjggMTUuNCAzMy42IDE4LjggMTMuNiAyLjkgMjMuNCA1LjEgMjMuNCAxNy4xIDAgMTEuMi0xMC43IDE5LjEtMTkuMyAyNS41LTguOCA2LjUtMTcuNSAxMi44LTE3LjUgMzEuNCAwIDIxLjkgMjEuNCAzMC41IDQyLjUgMzkuNiA2LjUgMi44IDEzLjEgNS42IDE3LjcgOS45LTIuMiAxMy42LTEyLjUgMjYuMi00MS42IDI2LjItMTEuNSAwLTIxLjYtNC4zLTIxLjYtNC4zIDkuMSAzNi44IDQ1LjYgNTMuNiA4Mi4yIDUzLjYgMjYuOCAwIDUxLjktOC45IDcxLjUgMTEuNyAxMy45LTIuMSAyNy40LTQuMSA0Mi4zLTQuMSAxNC45IDAgMjguNCAyLjEgNDIuMyA0LjEgMTkuNiAyLjggNDQuNyAxMS43IDcxLjUgMTEuNyAzNi42IDAgNzMuMS0xNi44IDgyLjItNTMuNiAwLTEuMS0xMC4yLTQuMy0yMS42LTQuMy0yOS4yIDAtMzkuNCAxMi43LTQxLjYtMjYuMiA0LjYtNC4zIDExLjItNy4xIDE3LjctOS45IDIxLjEtOS4xIDQyLjUtMTcuNyA0Mi41LTM5LjYgMC0xOC42LTguNy0yNC45LTE3LjUtMzEuNC04LjYtNi40LTE5LjMtMTQuMyLTE5LjMtMjUuNSAwLTExLjkgOS44LTE0LjIgMjMuNC0xNy4xIDE1LjgtMy40IDMzLjYtNy4zIDMzLjYtMTguOCAwLTMuMS0uMy0zLjYtMy4xLTUuMy02LjktNC40LTI1LjEtMTUuOC0yNS4xLTU4LjMgMC0yNy43IDIwLjQtNDMuMSAxOC4yLTUzLjYtMS42LTcuMi0yMS44LTE2LjEtNDQuMS0zLjctMTIuMyA2LjgtMjQuMiAzLjItMjUuOS0xLjktMTUuMi00NC40LTUyLjItNzIuNS05Ny41LTcyLjV6IiBvcGFjaXR5PSIwLjAxIi8+PC9zdmc+"
+        
+        // Snapchat (Yellow - FIXED GHOST on Yellow Background)
+        'snapchat': "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSIjRkZGQzAwIiBkPSJNNDQ4IDU2Ljd2Mzk4LjVjMCAxMy43LTExLjEgMjQuNy0yNC43IDI0LjdIMjQuN0MxMS4xIDQ4MCAwIDQ2OC45IDAgNDU1LjNWNTYuN2MwLTEzLjcgMTEuMS0yNC43IDI0LjctMjQuN2gzOTguNWMxMy43IDAgMjQuNyAxMS4xIDI0LjcgMjQuN3oiLz48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMjI0LjEgNTguN2MtNDUuMiAwLTgyLjIgMjguMS05Ny41IDcyLjUtMS43IDUuMS0xMy42IDguNy0yNS45IDEuOS0yMi4zLTEyLjQtNDIuNS0zLjUtNDQuMSAzLjctMi4yIDEwLjUgMTguMiAyNS45IDE4LjIgNTMuNiAwIDQyLjUtMTguMiA1My45LTI1LjEgNTguMy0yLjggMS43LTMuMSAyLjMtMy4xIDUuMyAwIDExLjUgMTcuOCAxNS40IDMzLjYgMTguOCAxMy42IDIuOSAyMy40IDUuMSAyMy40IDE3LjEgMCAxMS4yLTEwLjcgMTkuMS0xOS4zIDI1LjUtOC44IDYuNS0xNy41IDEyLjgtMTcuNSAzMS40IDAgMjEuOSAyMS40IDMwLjUgNDIuNSAzOS42IDYuNSAyLjggMTMuMSA1LjYgMTcuNyA5LjktMi4yIDEzLjYtMTIuNSAyNi4yLTQxLjYgMjYuMi0xMS41IDAtMjEuNi00LjMtMjEuNi00LjMgOS4xIDM2LjggNDUuNiA1My42IDgyLjIgNTMuNiAyNi44IDAgNTEuOS04LjkgNzEuNS0xMS43IDEzLjktMi4xIDI3LjQtNC4xIDQyLjMtNC4xIDE0LjkgMCAyOC40IDIuMSA0Mi4zIDQuMSAxOS42IDIuOCA0NC43IDExLjcgNzEuNSAxMS43IDM2LjYgMCA3My4xLTE2LjggODIuMi01My42IDAtMS4xLTEwLjItNC4zLTIxLjYtNC4zLTI5LjIgMC0zOS40IDEyLjctNDEuNi0yNi4yIDQuNi00LjMgMTEuMi03LjEgMTcuNy05LjkgMjEuMS05LjEgNDIuNS0xNy43IDQyLjUtMzkuNiAwLTE4LjYtOC43LTI0LjktMTcuNS0zMS40LTguNi02LjQtMTkuMy0xNC4zLTE5LjMtMjUuNSAwLTExLjkgOS44LTE0LjIgMjMuNC0xNy4xIDE1LjgtMy40IDMzLjYtNy4zIDMzLjYtMTguOCAwLTMuMS0uMy0zLjYtMy4xLTUuMy02LjktNC40LTI1LjEtMTUuOC0yNS4xLTU4LjMgMC0yNy43IDIwLjQtNDMuMSAxOC4yLTUzLjYtMS42LTcuMi0yMS44LTE2LjEtNDQuMS0zLjctMTIuMyA2LjgtMjQuMiAzLjItMjUuOS0xLjktMTUuMi00NC40LTUyLjItNzIuNS05Ny41LTcyLjV6Ii8+PC9zdmc+"
     };
 
     const PRESETS = [
@@ -494,6 +513,7 @@
             c.width = W; c.height = H;
 
             // 2. Deep Liquid Glass Background Engine
+            
             // A. Base Theme Layer (Rich Color instead of Black)
             const baseGrad = ctx.createLinearGradient(0, 0, W, H);
             baseGrad.addColorStop(0, state.theme.bg1); 
@@ -631,19 +651,34 @@
                 
                 // Calculate Social Block Width
                 ctx.font = "600 24px Inter";
-                const iconSize = 36; // Larger Icon
+                const iconSize = 36; 
                 const textGap = 12;
                 const textWidth = ctx.measureText(txt).width;
                 const totalWidth = iconSize + textGap + textWidth;
                 const startX = CX - (totalWidth / 2);
 
-                // Draw Selected Icon (ORIGINAL COLORS)
+                // Draw Selected Icon (Black on UI, Invert to White on Dark Post)
                 const icon = new Image(); 
                 icon.src = SOCIALS[state.social];
                 await new Promise(r => { icon.onload = r; if(icon.complete) r(); });
                 
-                // Removed white composite, drawing raw color icon
-                ctx.drawImage(icon, startX, startY - 28, iconSize, iconSize);
+                // If it's the black X/TikTok, we need to invert it for the dark card
+                // We use a temp canvas to invert or colorize
+                if(state.social === 'twitter' || state.social === 'tiktok') {
+                    const tC = document.createElement('canvas'); tC.width=iconSize; tC.height=iconSize;
+                    const tCtx = tC.getContext('2d');
+                    tCtx.drawImage(icon, 0,0,iconSize,iconSize);
+                    
+                    // Composite white color
+                    tCtx.globalCompositeOperation = 'source-in';
+                    tCtx.fillStyle = '#ffffff';
+                    tCtx.fillRect(0,0,iconSize,iconSize);
+                    
+                    ctx.drawImage(tC, startX, startY - 28);
+                } else {
+                    // Draw colored icon as is
+                    ctx.drawImage(icon, startX, startY - 28, iconSize, iconSize);
+                }
 
                 // Draw Text
                 ctx.textAlign = "left";
