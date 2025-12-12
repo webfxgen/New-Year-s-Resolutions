@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Year 2026 Resolution Generator</title>
+    <style>
+        :root {
+            --color-primary: #FF6B6B;
+            --color-secondary: #4ECDC4;
+            --color-gold: #FFD93D;
+            --color-deep-blue: #2C3E50;
+            --color-light-bg: #F8F9FA;
+            --color-white: #FFFFFF;
+            --color-text: #2C3E50;
+            --color-text-light: #7F8C8D;
+            --shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            background: var(--color-white);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--color-deep-blue);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--color-text-light);
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-deep-blue);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+        }
+
+        .resolutions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .resolution-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--color-light-bg);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .resolution-item:hover {
+            background: #F0F0F0;
+        }
+
+        .resolution-item.selected {
+            background: #E8F8F7;
+            border-color: var(--color-secondary);
+            animation: pulse 0.4s ease-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.98);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .resolution-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--color-secondary);
+        }
+
+        .resolution-text {
+            font-size: 14px;
+            color: var(--color-text);
+            flex: 1;
+        }
+
+        .add-custom-section {
+            border-top: 2px solid #E0E0E0;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .custom-input-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .custom-input-wrapper input {
+            flex: 1;
+        }
+
+        .btn-add {
+            padding: 10px 16px;
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #45B8AF;
+            transform: translateY(-2px);
+        }
+
+        .custom-resolutions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .custom-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: var(--color-gold);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-deep-blue);
+        }
+
+        .btn-remove {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--color-deep-blue);
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-generate:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-generate:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .post-preview {
+            background: var(--color-white);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .post-preview.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .post-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--color-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-deep-blue);
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .profile-info p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .resolutions-display {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .resolution-number {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .number-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--color-gold);
+            color: var(--color-deep-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .year-text {
+            font-size: 48px;
+            font-weight: 900;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-copy {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .btn-copy:hover {
+            background: #45B8AF;
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-download:hover {
+            background: #FF5555;
+        }
+
+        .success-message {
+            background: #E8F8F7;
+            color: var(--color-secondary);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .back-btn {
+            background: var(--color-text-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--color-deep-blue);
+        }
+
+        .social-handle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .design-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .design-option {
+            position: relative;
+            border-radius: 10px;
+            padding: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            background: var(--color-light-bg);
+        }
+
+        .design-option:hover {
+            border-color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+
+        .design-option.active {
+            border-color: var(--color-primary);
+            background: #FFE5E5;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .design-preview {
+            width: 100%;
+            height: 100px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .design-name {
+            font-size: 11px;
+            margin-top: 4px;
+            text-align: center;
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        .post-card.design-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .post-card.design-2 {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%);
+        }
+
+        .post-card.design-3 {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+        }
+
+        .post-card.design-4 {
+            background: linear-gradient(135deg, #667eea 0%, #FF6B6B 100%);
+        }
+
+        .post-card.design-5 {
+            background: linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%);
+        }
+
+        .post-card.design-6 {
+            background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
+        }
+
+        .post-card.design-7 {
+            background: linear-gradient(135deg, #6A4C93 0%, #1982C4 100%);
+        }
+
+        .post-card.design-8 {
+            background: linear-gradient(135deg, #FF006E 0%, #FB5607 100%);
+        }
+
+        @media (max-width: 480px) {
+            .form-section, .post-preview {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .post-card {
+                padding: 20px;
+            }
+
+            .year-text {
+                font-size: 40px;
+            }
+
+            .design-selector {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-section" id="formSection">
+            <h1>🎯 2026 Resolution Creator</h1>
+            <p class="subtitle">Create your social media post</p>
+
+            <form id="resolutionForm">
+                <!-- User Info -->
+                <div class="form-group">
+                    <label for="userName">Your Name</label>
+                    <input type="text" id="userName" placeholder="Enter your name" required oninput="updateGenerateBtn()">
+                </div>
+
+                <!-- Profile Section -->
+                <div class="form-group">
+                    <label>Profile Section</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 150px;">
+                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Avatar</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="userAvatar" placeholder="Emoji (1-2)" maxlength="2" value="👤" style="text-align: center; font-size: 18px; flex: 1;">
+                                <label style="flex: 1; position: relative; overflow: hidden;">
+                                    <button type="button" style="width: 100%; padding: 10px; background: var(--color-secondary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s;">Upload</button>
+                                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                                </label>
+                            </div>
+                            <div id="uploadPreview" style="margin-top: 8px; text-align: center;">
+                                <img id="previewImg" style="display: none; width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                            </div>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Title/Role</label>
+                            <input type="text" id="userRole" placeholder="e.g., Creator, Dreamer" maxlength="20">
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Instagram Handle</label>
+                            <input type="text" id="instagramHandle" placeholder="@username" maxlength="30">
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">YouTube Channel</label>
+                            <input type="text" id="youtubeHandle" placeholder="@channel" maxlength="30">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Select Resolutions -->
+                <div class="form-group">
+                    <label>Select Your Resolutions (up to 5) <span id="resolutionCount" style="color: var(--color-secondary); font-weight: bold;">(0/5)</span></label>
+                    <div class="resolutions-list">
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Meditate daily for inner peace">
+                            <span class="resolution-text">🧘 Meditate daily for inner peace</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Read more books & expand knowledge">
+                            <span class="resolution-text">📚 Read more books &amp; expand knowledge</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Exercise & stay fit">
+                            <span class="resolution-text">💪 Exercise &amp; stay fit</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Learn a new skill">
+                            <span class="resolution-text">🎯 Learn a new skill</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Spend more time with family">
+                            <span class="resolution-text">👨‍👩‍👧‍👦 Spend more time with family</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Save money & build wealth">
+                            <span class="resolution-text">💰 Save money &amp; build wealth</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Practice gratitude daily">
+                            <span class="resolution-text">🙏 Practice gratitude daily</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Travel & explore new places">
+                            <span class="resolution-text">✈️ Travel &amp; explore new places</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Improve sleep schedule">
+                            <span class="resolution-text">😴 Improve sleep schedule</span>
+                        </div>
+                        <div class="resolution-item">
+                            <input type="checkbox" class="resolution-check" value="Help others & serve community">
+                            <span class="resolution-text">🤝 Help others &amp; serve community</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Custom Resolutions -->
+                <div class="add-custom-section">
+                    <label>Add Your Custom Resolution</label>
+                    <div class="custom-input-wrapper">
+                        <input type="text" id="customInput" placeholder="Type your resolution..." oninput="updateGenerateBtn()">
+                        <button type="button" class="btn-add" onclick="addCustomResolution()">Add</button>
+                    </div>
+                    <div class="custom-resolutions" id="customResolutions"></div>
+                </div>
+
+                <!-- Card Design Selector -->
+                <div class="form-group" id="designSelectorSection">
+                    <label>Choose Post Theme (8 Designs)</label>
+                    <div class="design-selector" id="designSelector"></div>
+                </div>
+
+                <button type="button" class="btn-generate" id="generateBtn" onclick="generatePost()" disabled>Generate Post</button>
+            </form>
+        </div>
+
+        <!-- Post Preview Section -->
+        <div class="post-preview" id="postPreview">
+            <button class="back-btn" onclick="goBack()">← Back to Edit</button>
+            <div class="success-message" id="successMessage">Post created successfully! ✨</div>
+
+            <!-- Social Media Card -->
+            <div class="post-card">
+                <div class="profile-section">
+                    <div class="profile-avatar" id="avatar">👤</div>
+                    <div class="profile-info">
+                        <h3 id="displayName">Your Name</h3>
+                        <p id="displayRole">New Year 2026</p>
+                    </div>
+                </div>
+
+                <div id="socialHandlesDisplay" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
+                    <!-- Social handles will be inserted here -->
+                </div>
+
+                <div style="margin: 20px 0; font-size: 14px; line-height: 1.8;">
+                    <p style="margin: 0 0 15px 0; font-size: 16px; font-weight: 600;">My 2026 Resolutions ✨</p>
+                </div>
+
+                <div class="resolutions-display" id="resolutionsDisplay">
+                    <!-- Resolutions will be inserted here -->
+                </div>
+
+                <div class="year-text">2026</div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button class="btn-copy" onclick="copyToClipboard()">📋 Copy Text</button>
+                <button class="btn-download" onclick="downloadImage()">⬇️ Download Image</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedResolutions = [];
+        let customResolutions = [];
+        let selectedDesign = 'design-1';
+
+        // Initialize design selector
+        function initializeDesigns() {
+            const designs = [
+                { id: 'design-1', name: 'Purple Vibes', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+                { id: 'design-2', name: 'Warm Energy', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%)' },
+                { id: 'design-3', name: 'Ocean Fresh', gradient: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' },
+                { id: 'design-4', name: 'Bold Mix', gradient: 'linear-gradient(135deg, #667eea 0%, #FF6B6B 100%)' },
+                { id: 'design-5', name: 'Dark Teal', gradient: 'linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%)' },
+                { id: 'design-6', name: 'Fire Sunset', gradient: 'linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%)' },
+                { id: 'design-7', name: 'Deep Blue', gradient: 'linear-gradient(135deg, #6A4C93 0%, #1982C4 100%)' },
+                { id: 'design-8', name: 'Vibrant Pop', gradient: 'linear-gradient(135deg, #FF006E 0%, #FB5607 100%)' }
+            ];
+
+            const selector = document.getElementById('designSelector');
+            selector.innerHTML = designs.map(design => `
+                <div class="design-option active-design-${design.id}" onclick="selectDesign('${design.id}')">
+                    <div class="design-preview" style="background: ${design.gradient};">✨</div>
+                    <div class="design-name">${design.name}</div>
+                </div>
+            `).join('');
+
+            selectDesign('design-1');
+        }
+
+        function selectDesign(designId) {
+            selectedDesign = designId;
+            document.querySelectorAll('.design-option').forEach(opt => opt.classList.remove('active'));
+            document.querySelector(`.active-design-${designId}`).classList.add('active');
+        }
+
+        // Track resolution selections
+        document.querySelectorAll('.resolution-check').forEach(checkbox => {
+            checkbox.addEventListener('change', function(e) {
+                updateSelectedCount();
+                const item = e.target.closest('.resolution-item');
+                
+                if (this.checked && selectedResolutions.length >= 5) {
+                    this.checked = false;
+                    return;
+                }
+                
+                item.classList.toggle('selected');
+                updateGenerateBtn();
+            });
+        });
+
+        function updateSelectedCount() {
+            selectedResolutions = Array.from(document.querySelectorAll('.resolution-check:checked'))
+                .map(cb => cb.value);
+            
+            const count = selectedResolutions.length + customResolutions.length;
+            document.getElementById('resolutionCount').textContent = `(${count}/5)`;
+
+            // Disable checkboxes if max is reached
+            if (count >= 5) {
+                document.querySelectorAll('.resolution-check:not(:checked)').forEach(cb => {
+                    cb.disabled = true;
+                });
+            } else {
+                document.querySelectorAll('.resolution-check').forEach(cb => {
+                    cb.disabled = false;
+                });
+            }
+        }
+
+        function updateGenerateBtn() {
+            const userName = document.getElementById('userName').value.trim();
+            const totalResolutions = selectedResolutions.length + customResolutions.length;
+            
+            const btn = document.getElementById('generateBtn');
+            if (userName && totalResolutions > 0 && totalResolutions <= 5) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+        }
+
+        function addCustomResolution() {
+            const input = document.getElementById('customInput');
+            const value = input.value.trim();
+            const totalResolutions = selectedResolutions.length + customResolutions.length;
+
+            if (!value) {
+                alert('Please enter a resolution');
+                return;
+            }
+
+            if (totalResolutions >= 5) {
+                alert('Maximum 5 resolutions only');
+                return;
+            }
+
+            customResolutions.push(value);
+            input.value = '';
+            renderCustomResolutions();
+            updateSelectedCount();
+            updateGenerateBtn();
+        }
+
+        function removeCustomResolution(index) {
+            customResolutions.splice(index, 1);
+            renderCustomResolutions();
+            updateSelectedCount();
+            updateGenerateBtn();
+        }
+
+        function renderCustomResolutions() {
+            const container = document.getElementById('customResolutions');
+            container.innerHTML = customResolutions.map((res, idx) => `
+                <div class="custom-tag" style="animation: slideDown 0.3s ease-out;">
+                    <span>${res}</span>
+                    <button type="button" class="btn-remove" onclick="removeCustomResolution(${idx})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function generatePost() {
+            const userName = document.getElementById('userName').value.trim();
+            const userAvatar = document.getElementById('userAvatar').value.trim() || '👤';
+            const userRole = document.getElementById('userRole').value.trim() || 'New Year 2026';
+
+            updateSelectedCount();
+            const allResolutions = [...selectedResolutions, ...customResolutions];
+
+            if (!userName) {
+                alert('Please enter your name');
+                return;
+            }
+
+            if (allResolutions.length === 0) {
+                alert('Please select or add at least one resolution');
+                return;
+            }
+
+            if (allResolutions.length > 5) {
+                alert('You can select maximum 5 resolutions');
+                return;
+            }
+
+            // Update display name
+            document.getElementById('displayName').textContent = userName;
+
+            // Set avatar (image or emoji)
+            const previewImg = document.getElementById('previewImg');
+            const avatarDiv = document.getElementById('avatar');
+            
+            if (previewImg.style.display !== 'none' && previewImg.src) {
+                avatarDiv.innerHTML = `<img src="${previewImg.src}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                avatarDiv.textContent = userAvatar;
+                avatarDiv.innerHTML = userAvatar;
+            }
+            
+            document.getElementById('displayRole').textContent = userRole || 'New Year 2026';
+
+            // Add social handles
+            const instaHandle = document.getElementById('instagramHandle').value.trim();
+            const youtubeHandle = document.getElementById('youtubeHandle').value.trim();
+            const socialHandlesDisplay = document.getElementById('socialHandlesDisplay');
+            
+            let socialHTML = '';
+            if (instaHandle) {
+                const instaLogo = `<svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/></svg>`;
+                socialHTML += `<div class="social-handle">${instaLogo} ${instaHandle}</div>`;
+            }
+            if (youtubeHandle) {
+                const youtubeLogo = `<svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`;
+                socialHTML += `<div class="social-handle">${youtubeLogo} ${youtubeHandle}</div>`;
+            }
+            
+            socialHandlesDisplay.innerHTML = socialHTML;
+
+            // Update post card design
+            const postCard = document.querySelector('.post-card');
+            postCard.className = 'post-card ' + selectedDesign;
+
+            // Generate resolutions display with animation
+            const resolutionsHTML = allResolutions.map((res, idx) => `
+                <div class="resolution-number" style="animation: slideDown ${0.3 + (idx * 0.1)}s ease-out;">
+                    <div class="number-circle">${idx + 1}</div>
+                    <div>${res}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('resolutionsDisplay').innerHTML = resolutionsHTML;
+
+            // Show preview
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('postPreview').classList.add('show');
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            setTimeout(() => successMsg.classList.remove('show'), 3000);
+        }
+
+        function goBack() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('postPreview').classList.remove('show');
+        }
+
+        function copyToClipboard() {
+            const userName = document.getElementById('displayName').textContent;
+            updateSelectedCount();
+            const allResolutions = [...selectedResolutions, ...customResolutions];
+
+            let text = `My 2026 Resolutions ✨\n\n`;
+            allResolutions.forEach((res, idx) => {
+                text += `${idx + 1}. ${res}\n`;
+            });
+            text += `\n2026`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Post text copied to clipboard! 📋');
+            });
+        }
+
+        function downloadImage() {
+            const card = document.querySelector('.post-card');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas dimensions
+            canvas.width = 1080;
+            canvas.height = 1350;
+
+            // Draw gradient background
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw content
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 60px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(document.getElementById('displayName').textContent, canvas.width / 2, 150);
+
+            ctx.font = '40px Arial';
+            ctx.fillText('My 2026 Resolutions ✨', canvas.width / 2, 250);
+
+            // Draw resolutions
+            ctx.font = '32px Arial';
+            ctx.textAlign = 'left';
+            let yPos = 350;
+            const allResolutions = [...selectedResolutions, ...customResolutions];
+            allResolutions.forEach((res, idx) => {
+                ctx.fillText(`${idx + 1}. ${res}`, 100, yPos);
+                yPos += 120;
+            });
+
+            // Draw year
+            ctx.font = 'bold 120px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('2026', canvas.width / 2, canvas.height - 100);
+
+            // Download
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'my-2026-resolutions.png';
+            link.click();
+        }
+
+        // Allow Enter key to add custom resolution
+        document.getElementById('customInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addCustomResolution();
+            }
+        });
+
+        // Handle image upload
+        document.getElementById('avatarUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.getElementById('previewImg');
+                    img.src = event.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('userAvatar').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Trigger file input on button click
+        document.querySelector('label[style*="position: relative"]').addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                e.preventDefault();
+                document.getElementById('avatarUpload').click();
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDesigns();
+            updateGenerateBtn();
+        });
+    </script>
+</body>
+</html>
