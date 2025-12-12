@@ -116,28 +116,14 @@
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(0.98);
-                opacity: 0.8;
-            }
-            50% {
-                transform: scale(1.02);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0.98); opacity: 0.8; }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .resolution-item input[type="checkbox"] {
@@ -250,14 +236,8 @@
         }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .post-card {
@@ -267,6 +247,8 @@
             color: white;
             text-align: center;
             margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
         .profile-section {
@@ -288,18 +270,29 @@
             font-size: 24px;
             font-weight: bold;
             color: var(--color-deep-blue);
+            overflow: hidden;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .profile-info h3 {
             margin: 0;
             font-size: 16px;
             font-weight: 700;
+            color: white;
+            text-align: left;
         }
 
         .profile-info p {
             margin: 0;
             font-size: 12px;
             opacity: 0.9;
+            color: rgba(255,255,255,0.9);
+            text-align: left;
         }
 
         .resolutions-display {
@@ -308,11 +301,12 @@
             padding: 20px;
             margin: 20px 0;
             text-align: left;
+            backdrop-filter: blur(5px);
         }
 
         .resolution-number {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
             margin-bottom: 12px;
             font-size: 15px;
@@ -320,8 +314,8 @@
         }
 
         .number-circle {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             background: var(--color-gold);
             color: var(--color-deep-blue);
@@ -329,7 +323,9 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 14px;
             flex-shrink: 0;
+            margin-top: 0;
         }
 
         .year-text {
@@ -337,6 +333,7 @@
             font-weight: 900;
             margin-top: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
         }
 
         .btn-copy {
@@ -410,7 +407,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 12px;
+            padding: 6px 12px;
             background: rgba(255,255,255,0.2);
             border-radius: 20px;
             font-size: 12px;
@@ -419,16 +416,13 @@
         }
 
         .social-icon {
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 16px;
+            height: 16px;
         }
 
         .design-selector {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -436,7 +430,7 @@
         .design-option {
             position: relative;
             border-radius: 10px;
-            padding: 8px;
+            padding: 4px;
             cursor: pointer;
             border: 3px solid transparent;
             transition: all 0.3s;
@@ -451,12 +445,12 @@
         .design-option.active {
             border-color: var(--color-primary);
             background: #FFE5E5;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
         }
 
         .design-preview {
             width: 100%;
-            height: 100px;
+            height: 60px;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -465,69 +459,31 @@
             font-weight: 600;
             color: white;
             text-align: center;
-            padding: 5px;
         }
 
         .design-name {
-            font-size: 11px;
+            font-size: 10px;
             margin-top: 4px;
             text-align: center;
             color: var(--color-text);
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        .post-card.design-1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .post-card.design-2 {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%);
-        }
-
-        .post-card.design-3 {
-            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
-        }
-
-        .post-card.design-4 {
-            background: linear-gradient(135deg, #667eea 0%, #FF6B6B 100%);
-        }
-
-        .post-card.design-5 {
-            background: linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%);
-        }
-
-        .post-card.design-6 {
-            background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
-        }
-
-        .post-card.design-7 {
-            background: linear-gradient(135deg, #6A4C93 0%, #1982C4 100%);
-        }
-
-        .post-card.design-8 {
-            background: linear-gradient(135deg, #FF006E 0%, #FB5607 100%);
-        }
+        /* Design Classes for CSS Preview */
+        .post-card.design-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .post-card.design-2 { background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%); }
+        .post-card.design-3 { background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); }
+        .post-card.design-4 { background: linear-gradient(135deg, #667eea 0%, #FF6B6B 100%); }
+        .post-card.design-5 { background: linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%); }
+        .post-card.design-6 { background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%); }
+        .post-card.design-7 { background: linear-gradient(135deg, #6A4C93 0%, #1982C4 100%); }
+        .post-card.design-8 { background: linear-gradient(135deg, #FF006E 0%, #FB5607 100%); }
 
         @media (max-width: 480px) {
-            .form-section, .post-preview {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .post-card {
-                padding: 20px;
-            }
-
-            .year-text {
-                font-size: 40px;
-            }
-
-            .design-selector {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            }
+            .form-section, .post-preview { padding: 20px; }
+            h1 { font-size: 24px; }
+            .post-card { padding: 20px; }
+            .year-text { font-size: 40px; }
         }
     </style>
 </head>
@@ -549,86 +505,56 @@
                 <div class="form-group">
                     <label>Profile Section</label>
                     <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
-                        <div style="flex: 1; min-width: 150px;">
+                        <div style="flex: 1; min-width: 120px;">
                             <label style="font-size: 12px; margin-bottom: 5px; display: block;">Avatar</label>
                             <div style="display: flex; gap: 8px;">
-                                <input type="text" id="userAvatar" placeholder="Emoji (1-2)" maxlength="2" value="👤" style="text-align: center; font-size: 18px; flex: 1;">
-                                <label style="flex: 1; position: relative; overflow: hidden;">
-                                    <button type="button" style="width: 100%; padding: 10px; background: var(--color-secondary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s;">Upload</button>
+                                <input type="text" id="userAvatar" placeholder="Emoji" maxlength="2" value="👤" style="text-align: center; font-size: 18px; width: 60px;">
+                                <label style="flex: 1; position: relative; overflow: hidden; margin: 0;">
+                                    <button type="button" style="width: 100%; height: 100%; background: var(--color-secondary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.3s; padding: 12px;">Upload</button>
                                     <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
                                 </label>
                             </div>
-                            <div id="uploadPreview" style="margin-top: 8px; text-align: center;">
-                                <img id="previewImg" style="display: none; width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                            <div id="uploadPreview" style="margin-top: 8px; text-align: center; height: 50px;">
+                                <img id="previewImg" style="display: none; width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin: 0 auto; border: 2px solid var(--color-secondary);">
                             </div>
                         </div>
-                        <div style="flex: 1; min-width: 150px;">
+                        <div style="flex: 2; min-width: 150px;">
                             <label style="font-size: 12px; margin-bottom: 5px; display: block;">Title/Role</label>
-                            <input type="text" id="userRole" placeholder="e.g., Creator, Dreamer" maxlength="20">
+                            <input type="text" id="userRole" placeholder="e.g., Dreamer, Creator" maxlength="25">
                         </div>
                     </div>
                     <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                         <div>
-                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Instagram Handle</label>
-                            <input type="text" id="instagramHandle" placeholder="@username" maxlength="30">
+                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">Instagram</label>
+                            <input type="text" id="instagramHandle" placeholder="@username" maxlength="20">
                         </div>
                         <div>
-                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">YouTube Channel</label>
-                            <input type="text" id="youtubeHandle" placeholder="@channel" maxlength="30">
+                            <label style="font-size: 12px; margin-bottom: 5px; display: block;">YouTube</label>
+                            <input type="text" id="youtubeHandle" placeholder="@channel" maxlength="20">
                         </div>
                     </div>
                 </div>
 
                 <!-- Select Resolutions -->
                 <div class="form-group">
-                    <label>Select Your Resolutions (up to 5) <span id="resolutionCount" style="color: var(--color-secondary); font-weight: bold;">(0/5)</span></label>
+                    <label>Select Resolutions (Max 5) <span id="resolutionCount" style="color: var(--color-secondary); font-weight: bold;">(0/5)</span></label>
                     <div class="resolutions-list">
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Meditate daily for inner peace">
-                            <span class="resolution-text">🧘 Meditate daily for inner peace</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Read more books & expand knowledge">
-                            <span class="resolution-text">📚 Read more books &amp; expand knowledge</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Exercise & stay fit">
-                            <span class="resolution-text">💪 Exercise &amp; stay fit</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Learn a new skill">
-                            <span class="resolution-text">🎯 Learn a new skill</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Spend more time with family">
-                            <span class="resolution-text">👨‍👩‍👧‍👦 Spend more time with family</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Save money & build wealth">
-                            <span class="resolution-text">💰 Save money &amp; build wealth</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Practice gratitude daily">
-                            <span class="resolution-text">🙏 Practice gratitude daily</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Travel & explore new places">
-                            <span class="resolution-text">✈️ Travel &amp; explore new places</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Improve sleep schedule">
-                            <span class="resolution-text">😴 Improve sleep schedule</span>
-                        </div>
-                        <div class="resolution-item">
-                            <input type="checkbox" class="resolution-check" value="Help others & serve community">
-                            <span class="resolution-text">🤝 Help others &amp; serve community</span>
-                        </div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Meditate daily for inner peace"><span class="resolution-text">🧘 Meditate daily for inner peace</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Read more books & expand knowledge"><span class="resolution-text">📚 Read more books &amp; expand knowledge</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Exercise & stay fit"><span class="resolution-text">💪 Exercise &amp; stay fit</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Learn a new skill"><span class="resolution-text">🎯 Learn a new skill</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Spend more time with family"><span class="resolution-text">👨‍👩‍👧‍👦 Spend more time with family</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Save money & build wealth"><span class="resolution-text">💰 Save money &amp; build wealth</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Practice gratitude daily"><span class="resolution-text">🙏 Practice gratitude daily</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Travel & explore new places"><span class="resolution-text">✈️ Travel &amp; explore new places</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Improve sleep schedule"><span class="resolution-text">😴 Improve sleep schedule</span></div>
+                        <div class="resolution-item"><input type="checkbox" class="resolution-check" value="Help others & serve community"><span class="resolution-text">🤝 Help others &amp; serve community</span></div>
                     </div>
                 </div>
 
                 <!-- Add Custom Resolutions -->
                 <div class="add-custom-section">
-                    <label>Add Your Custom Resolution</label>
+                    <label>Add Custom Resolution</label>
                     <div class="custom-input-wrapper">
                         <input type="text" id="customInput" placeholder="Type your resolution..." oninput="updateGenerateBtn()">
                         <button type="button" class="btn-add" onclick="addCustomResolution()">Add</button>
@@ -638,7 +564,7 @@
 
                 <!-- Card Design Selector -->
                 <div class="form-group" id="designSelectorSection">
-                    <label>Choose Post Theme (8 Designs)</label>
+                    <label>Choose Theme</label>
                     <div class="design-selector" id="designSelector"></div>
                 </div>
 
@@ -648,7 +574,7 @@
 
         <!-- Post Preview Section -->
         <div class="post-preview" id="postPreview">
-            <button class="back-btn" onclick="goBack()">← Back to Edit</button>
+            <button class="back-btn" onclick="goBack()">← Edit</button>
             <div class="success-message" id="successMessage">Post created successfully! ✨</div>
 
             <!-- Social Media Card -->
@@ -661,17 +587,13 @@
                     </div>
                 </div>
 
-                <div id="socialHandlesDisplay" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
-                    <!-- Social handles will be inserted here -->
-                </div>
+                <div id="socialHandlesDisplay" style="display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;"></div>
 
                 <div style="margin: 20px 0; font-size: 14px; line-height: 1.8;">
-                    <p style="margin: 0 0 15px 0; font-size: 16px; font-weight: 600;">My 2026 Resolutions ✨</p>
+                    <p style="margin: 0 0 15px 0; font-size: 18px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">My 2026 Resolutions ✨</p>
                 </div>
 
-                <div class="resolutions-display" id="resolutionsDisplay">
-                    <!-- Resolutions will be inserted here -->
-                </div>
+                <div class="resolutions-display" id="resolutionsDisplay"></div>
 
                 <div class="year-text">2026</div>
             </div>
@@ -691,14 +613,14 @@
         // Initialize design selector
         function initializeDesigns() {
             const designs = [
-                { id: 'design-1', name: 'Purple Vibes', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
-                { id: 'design-2', name: 'Warm Energy', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%)' },
-                { id: 'design-3', name: 'Ocean Fresh', gradient: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' },
-                { id: 'design-4', name: 'Bold Mix', gradient: 'linear-gradient(135deg, #667eea 0%, #FF6B6B 100%)' },
-                { id: 'design-5', name: 'Dark Teal', gradient: 'linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%)' },
-                { id: 'design-6', name: 'Fire Sunset', gradient: 'linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%)' },
-                { id: 'design-7', name: 'Deep Blue', gradient: 'linear-gradient(135deg, #6A4C93 0%, #1982C4 100%)' },
-                { id: 'design-8', name: 'Vibrant Pop', gradient: 'linear-gradient(135deg, #FF006E 0%, #FB5607 100%)' }
+                { id: 'design-1', name: 'Purple', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+                { id: 'design-2', name: 'Warm', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%)' },
+                { id: 'design-3', name: 'Ocean', gradient: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' },
+                { id: 'design-4', name: 'Bold', gradient: 'linear-gradient(135deg, #667eea 0%, #FF6B6B 100%)' },
+                { id: 'design-5', name: 'Teal', gradient: 'linear-gradient(135deg, #2C3E50 0%, #4ECDC4 100%)' },
+                { id: 'design-6', name: 'Sunset', gradient: 'linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%)' },
+                { id: 'design-7', name: 'Deep', gradient: 'linear-gradient(135deg, #6A4C93 0%, #1982C4 100%)' },
+                { id: 'design-8', name: 'Vibrant', gradient: 'linear-gradient(135deg, #FF006E 0%, #FB5607 100%)' }
             ];
 
             const selector = document.getElementById('designSelector');
@@ -721,15 +643,19 @@
         // Track resolution selections
         document.querySelectorAll('.resolution-check').forEach(checkbox => {
             checkbox.addEventListener('change', function(e) {
-                updateSelectedCount();
                 const item = e.target.closest('.resolution-item');
                 
-                if (this.checked && selectedResolutions.length >= 5) {
-                    this.checked = false;
-                    return;
+                if (this.checked) {
+                    const currentTotal = selectedResolutions.length + customResolutions.length;
+                    if (currentTotal >= 5) {
+                        this.checked = false;
+                        alert("You can select up to 5 resolutions maximum.");
+                        return;
+                    }
                 }
                 
-                item.classList.toggle('selected');
+                updateSelectedCount();
+                item.classList.toggle('selected', this.checked);
                 updateGenerateBtn();
             });
         });
@@ -742,15 +668,8 @@
             document.getElementById('resolutionCount').textContent = `(${count}/5)`;
 
             // Disable checkboxes if max is reached
-            if (count >= 5) {
-                document.querySelectorAll('.resolution-check:not(:checked)').forEach(cb => {
-                    cb.disabled = true;
-                });
-            } else {
-                document.querySelectorAll('.resolution-check').forEach(cb => {
-                    cb.disabled = false;
-                });
-            }
+            const checkboxes = document.querySelectorAll('.resolution-check:not(:checked)');
+            checkboxes.forEach(cb => cb.disabled = count >= 5);
         }
 
         function updateGenerateBtn() {
@@ -812,20 +731,8 @@
             updateSelectedCount();
             const allResolutions = [...selectedResolutions, ...customResolutions];
 
-            if (!userName) {
-                alert('Please enter your name');
-                return;
-            }
-
-            if (allResolutions.length === 0) {
-                alert('Please select or add at least one resolution');
-                return;
-            }
-
-            if (allResolutions.length > 5) {
-                alert('You can select maximum 5 resolutions');
-                return;
-            }
+            if (!userName) return alert('Please enter your name');
+            if (allResolutions.length === 0) return alert('Please select or add at least one resolution');
 
             // Update display name
             document.getElementById('displayName').textContent = userName;
@@ -835,13 +742,12 @@
             const avatarDiv = document.getElementById('avatar');
             
             if (previewImg.style.display !== 'none' && previewImg.src) {
-                avatarDiv.innerHTML = `<img src="${previewImg.src}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+                avatarDiv.innerHTML = `<img src="${previewImg.src}">`;
             } else {
                 avatarDiv.textContent = userAvatar;
-                avatarDiv.innerHTML = userAvatar;
             }
             
-            document.getElementById('displayRole').textContent = userRole || 'New Year 2026';
+            document.getElementById('displayRole').textContent = userRole;
 
             // Add social handles
             const instaHandle = document.getElementById('instagramHandle').value.trim();
@@ -849,13 +755,12 @@
             const socialHandlesDisplay = document.getElementById('socialHandlesDisplay');
             
             let socialHTML = '';
+            // Icons using simple text/emoji fallback if svg fails, but here we use inline SVG
             if (instaHandle) {
-                const instaLogo = `<svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/></svg>`;
-                socialHTML += `<div class="social-handle">${instaLogo} ${instaHandle}</div>`;
+                socialHTML += `<div class="social-handle">📸 ${instaHandle}</div>`;
             }
             if (youtubeHandle) {
-                const youtubeLogo = `<svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`;
-                socialHTML += `<div class="social-handle">${youtubeLogo} ${youtubeHandle}</div>`;
+                socialHTML += `<div class="social-handle">▶️ ${youtubeHandle}</div>`;
             }
             
             socialHandlesDisplay.innerHTML = socialHTML;
@@ -900,21 +805,33 @@
             });
             text += `\n2026`;
 
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Post text copied to clipboard! 📋');
-            });
+            // Use robust fallback for copy
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard! 📋')).catch(err => manualCopy(text));
+            } else {
+                manualCopy(text);
+            }
+        }
+        
+        function manualCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Copied to clipboard! 📋');
         }
 
         function downloadImage() {
-            const card = document.querySelector('.post-card');
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
 
-            // Set canvas dimensions for Instagram post (1080x1350)
+            // Set canvas dimensions (Instagram 4:5 ratio high res)
             canvas.width = 1080;
             canvas.height = 1350;
 
-            // Get current design and apply gradient
+            // --- 1. Background Gradient ---
             const designGradients = {
                 'design-1': { start: '#667eea', end: '#764ba2' },
                 'design-2': { start: '#FF6B6B', end: '#FFD93D' },
@@ -926,115 +843,191 @@
                 'design-8': { start: '#FF006E', end: '#FB5607' }
             };
 
-            const gradientColors = designGradients[selectedDesign] || { start: '#667eea', end: '#764ba2' };
-            
-            // Draw gradient background
+            const gradientColors = designGradients[selectedDesign] || designGradients['design-1'];
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
             gradient.addColorStop(0, gradientColors.start);
             gradient.addColorStop(1, gradientColors.end);
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw profile section (avatar + name + role)
+            // --- 2. Profile Section (Avatar, Name, Role) ---
+            // Centered Stack layout for clean image export
+            const centerX = canvas.width / 2;
+            let currentY = 120; // Start Y position
+
+            // A. Avatar Drawing
+            const avatarRadius = 70;
+            const avatarY = currentY + avatarRadius; // Center of avatar
+            
+            // Draw Avatar Circle Background
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(centerX, avatarY, avatarRadius, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fillStyle = '#FFD93D'; // Gold border/bg
+            ctx.fill();
+            
+            // Clip for image
+            ctx.clip();
+
+            const previewImg = document.getElementById('previewImg');
+            if (previewImg && previewImg.style.display !== 'none' && previewImg.src) {
+                // Draw uploaded image
+                ctx.drawImage(previewImg, centerX - avatarRadius, avatarY - avatarRadius, avatarRadius * 2, avatarRadius * 2);
+            } else {
+                // Draw Emoji
+                const userAvatar = document.getElementById('userAvatar').value.trim() || '👤';
+                ctx.font = '80px Arial'; // Emoji font size
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#2C3E50';
+                ctx.fillText(userAvatar, centerX, avatarY + 8); // Slight adjustment for emoji baseline
+            }
+            ctx.restore(); // Restore clipping
+            
+            currentY += (avatarRadius * 2) + 40; // Move down
+
+            // B. Name & Role
             ctx.fillStyle = '#FFFFFF';
             ctx.font = 'bold 56px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(document.getElementById('displayName').textContent, canvas.width / 2, 120);
+            ctx.textBaseline = 'alphabetic';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 10;
+            ctx.fillText(document.getElementById('displayName').textContent, centerX, currentY);
             
-            ctx.font = '24px Arial';
+            currentY += 50;
+            ctx.font = '30px Arial';
             ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.fillText(document.getElementById('displayRole').textContent, canvas.width / 2, 160);
+            ctx.shadowBlur = 0; // Reset shadow
+            ctx.fillText(document.getElementById('displayRole').textContent, centerX, currentY);
 
-            // Draw social handles if present
+            // --- 3. Social Handles ---
+            currentY += 60;
             const instaHandle = document.getElementById('instagramHandle').value.trim();
             const youtubeHandle = document.getElementById('youtubeHandle').value.trim();
-            let socialY = 200;
             
-            ctx.font = '18px Arial';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-            if (instaHandle) {
-                ctx.fillText(`📸 ${instaHandle}`, canvas.width / 2, socialY);
-                socialY += 35;
+            ctx.font = 'bold 24px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            
+            // Draw social handles side by side if both exist
+            if (instaHandle && youtubeHandle) {
+                 ctx.fillText(`📸 ${instaHandle}   |   ▶️ ${youtubeHandle}`, centerX, currentY);
+            } else if (instaHandle) {
+                 ctx.fillText(`📸 ${instaHandle}`, centerX, currentY);
+            } else if (youtubeHandle) {
+                 ctx.fillText(`▶️ ${youtubeHandle}`, centerX, currentY);
             }
-            if (youtubeHandle) {
-                ctx.fillText(`▶️ ${youtubeHandle}`, canvas.width / 2, socialY);
-                socialY += 35;
-            }
-
-            // Draw title
+            
+            // --- 4. Main Title ---
+            currentY += 90;
             ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 40px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('My 2026 Resolutions ✨', canvas.width / 2, socialY + 50);
+            ctx.font = 'bold 48px Arial';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 4;
+            ctx.fillText('My 2026 Resolutions ✨', centerX, currentY);
+            ctx.shadowBlur = 0;
 
-            // Draw resolutions with numbering
-            ctx.font = '28px Arial';
-            ctx.textAlign = 'left';
-            let yPos = socialY + 120;
+            // --- 5. Resolutions List ---
+            currentY += 80;
             const allResolutions = [...selectedResolutions, ...customResolutions];
             
+            // Background box for resolutions (Semi-transparent)
+            const boxWidth = 900;
+            const boxHeight = (allResolutions.length * 90) + 40; // Dynamic height
+            const boxX = (canvas.width - boxWidth) / 2;
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.roundRect(boxX, currentY - 50, boxWidth, boxHeight, 20); // Modern round rect
+            ctx.fill();
+
+            // Draw items
+            ctx.textAlign = 'left';
+            const textLeftMargin = boxX + 100; // Text start X
+            const numberX = boxX + 50; // Number circle center X
+            
             allResolutions.forEach((res, idx) => {
-                // Draw number circle
-                ctx.fillStyle = '#FFD93D';
+                // Circle for number
                 ctx.beginPath();
-                ctx.arc(80, yPos - 15, 22, 0, Math.PI * 2);
+                ctx.arc(numberX, currentY - 10, 24, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFD93D';
                 ctx.fill();
                 
+                // Number text
                 ctx.fillStyle = '#2C3E50';
                 ctx.font = 'bold 24px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText(idx + 1, 80, yPos - 8);
+                ctx.fillText(idx + 1, numberX, currentY);
                 
-                // Draw resolution text
+                // Resolution Text
                 ctx.fillStyle = '#FFFFFF';
-                ctx.font = '26px Arial';
+                ctx.font = '32px Arial';
                 ctx.textAlign = 'left';
                 
-                // Wrap text if needed
-                const maxWidth = 900;
-                const words = res.split(' ');
+                // Simple Word Wrap
+                const maxTextWidth = 750;
+                let words = res.split(' ');
                 let line = '';
-                let lineY = yPos;
+                let lineY = currentY;
                 
-                for (let i = 0; i < words.length; i++) {
-                    const testLine = line + (line ? ' ' : '') + words[i];
-                    const metrics = ctx.measureText(testLine);
-                    
-                    if (metrics.width > maxWidth && line) {
-                        ctx.fillText(line, 130, lineY);
-                        line = words[i];
-                        lineY += 40;
-                    } else {
-                        line = testLine;
+                // Check if text is too long for one line, if so, we might need to adjust spacing
+                // For simplicity in this generator, we'll try to fit in one line or truncate, 
+                // but let's do a basic 2-line wrap if needed.
+                
+                let testLine = words[0];
+                let lineCount = 1;
+                
+                for(let i = 1; i < words.length; i++) {
+                    let test = line + words[i] + ' ';
+                    if (ctx.measureText(test).width > maxTextWidth) {
+                        lineCount++; // It would wrap
+                        break;
                     }
-                }
-                if (line) {
-                    ctx.fillText(line, 130, lineY);
+                    line += words[i] + ' ';
                 }
                 
-                yPos += 110;
+                // Drawing logic
+                if (lineCount === 1) {
+                    ctx.fillText(res, textLeftMargin, lineY);
+                } else {
+                    // Primitive wrap for very long text
+                    ctx.fillText(res, textLeftMargin, lineY, maxTextWidth); // Scale to fit
+                }
+
+                currentY += 90; // Spacing between items
             });
 
-            // Draw year at bottom
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 140px Arial';
+            // --- 6. Year Footer ---
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = '900 160px Arial'; // Heavy font for year
             ctx.textAlign = 'center';
-            ctx.fillText('2026', canvas.width / 2, canvas.height - 80);
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 15;
+            // Position near bottom
+            ctx.fillText('2026', centerX, canvas.height - 80);
 
-            // Download
+            // --- 7. Download ---
             const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');
-            link.download = 'my-2026-resolutions.png';
+            link.download = `2026-resolutions-${selectedDesign}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0); // High quality
             link.click();
         }
 
-        // Allow Enter key to add custom resolution
-        document.getElementById('customInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                addCustomResolution();
-            }
-        });
+        // Add roundRect polyfill for older browsers if needed (simplified)
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.beginPath();
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                this.closePath();
+                return this;
+            };
+        }
 
         // Handle image upload
         document.getElementById('avatarUpload').addEventListener('change', function(e) {
@@ -1045,17 +1038,9 @@
                     const img = document.getElementById('previewImg');
                     img.src = event.target.result;
                     img.style.display = 'block';
-                    document.getElementById('userAvatar').style.display = 'none';
+                    document.getElementById('userAvatar').value = ''; // Clear emoji if image uploaded
                 };
                 reader.readAsDataURL(file);
-            }
-        });
-
-        // Trigger file input on button click
-        document.querySelector('label[style*="position: relative"]').addEventListener('click', function(e) {
-            if (e.target.tagName === 'BUTTON') {
-                e.preventDefault();
-                document.getElementById('avatarUpload').click();
             }
         });
 
@@ -1063,6 +1048,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeDesigns();
             updateGenerateBtn();
+            
+            // Allow Enter key to add custom resolution
+            document.getElementById('customInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addCustomResolution();
+                }
+            });
         });
     </script>
 </body>
