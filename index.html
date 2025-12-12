@@ -910,40 +910,116 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
 
-            // Set canvas dimensions
+            // Set canvas dimensions for Instagram post (1080x1350)
             canvas.width = 1080;
             canvas.height = 1350;
 
+            // Get current design and apply gradient
+            const designGradients = {
+                'design-1': { start: '#667eea', end: '#764ba2' },
+                'design-2': { start: '#FF6B6B', end: '#FFD93D' },
+                'design-3': { start: '#4ECDC4', end: '#44A08D' },
+                'design-4': { start: '#667eea', end: '#FF6B6B' },
+                'design-5': { start: '#2C3E50', end: '#4ECDC4' },
+                'design-6': { start: '#FF8C42', end: '#FF6B35' },
+                'design-7': { start: '#6A4C93', end: '#1982C4' },
+                'design-8': { start: '#FF006E', end: '#FB5607' }
+            };
+
+            const gradientColors = designGradients[selectedDesign] || { start: '#667eea', end: '#764ba2' };
+            
             // Draw gradient background
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#667eea');
-            gradient.addColorStop(1, '#764ba2');
+            gradient.addColorStop(0, gradientColors.start);
+            gradient.addColorStop(1, gradientColors.end);
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw content
+            // Draw profile section (avatar + name + role)
             ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 60px Arial';
+            ctx.font = 'bold 56px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(document.getElementById('displayName').textContent, canvas.width / 2, 150);
+            ctx.fillText(document.getElementById('displayName').textContent, canvas.width / 2, 120);
+            
+            ctx.font = '24px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillText(document.getElementById('displayRole').textContent, canvas.width / 2, 160);
 
-            ctx.font = '40px Arial';
-            ctx.fillText('My 2026 Resolutions ✨', canvas.width / 2, 250);
+            // Draw social handles if present
+            const instaHandle = document.getElementById('instagramHandle').value.trim();
+            const youtubeHandle = document.getElementById('youtubeHandle').value.trim();
+            let socialY = 200;
+            
+            ctx.font = '18px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            if (instaHandle) {
+                ctx.fillText(`📸 ${instaHandle}`, canvas.width / 2, socialY);
+                socialY += 35;
+            }
+            if (youtubeHandle) {
+                ctx.fillText(`▶️ ${youtubeHandle}`, canvas.width / 2, socialY);
+                socialY += 35;
+            }
 
-            // Draw resolutions
-            ctx.font = '32px Arial';
+            // Draw title
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 40px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('My 2026 Resolutions ✨', canvas.width / 2, socialY + 50);
+
+            // Draw resolutions with numbering
+            ctx.font = '28px Arial';
             ctx.textAlign = 'left';
-            let yPos = 350;
+            let yPos = socialY + 120;
             const allResolutions = [...selectedResolutions, ...customResolutions];
+            
             allResolutions.forEach((res, idx) => {
-                ctx.fillText(`${idx + 1}. ${res}`, 100, yPos);
-                yPos += 120;
+                // Draw number circle
+                ctx.fillStyle = '#FFD93D';
+                ctx.beginPath();
+                ctx.arc(80, yPos - 15, 22, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#2C3E50';
+                ctx.font = 'bold 24px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(idx + 1, 80, yPos - 8);
+                
+                // Draw resolution text
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = '26px Arial';
+                ctx.textAlign = 'left';
+                
+                // Wrap text if needed
+                const maxWidth = 900;
+                const words = res.split(' ');
+                let line = '';
+                let lineY = yPos;
+                
+                for (let i = 0; i < words.length; i++) {
+                    const testLine = line + (line ? ' ' : '') + words[i];
+                    const metrics = ctx.measureText(testLine);
+                    
+                    if (metrics.width > maxWidth && line) {
+                        ctx.fillText(line, 130, lineY);
+                        line = words[i];
+                        lineY += 40;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                if (line) {
+                    ctx.fillText(line, 130, lineY);
+                }
+                
+                yPos += 110;
             });
 
-            // Draw year
-            ctx.font = 'bold 120px Arial';
+            // Draw year at bottom
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 140px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('2026', canvas.width / 2, canvas.height - 100);
+            ctx.fillText('2026', canvas.width / 2, canvas.height - 80);
 
             // Download
             const link = document.createElement('a');
